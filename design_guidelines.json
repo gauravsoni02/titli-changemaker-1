@@ -1,0 +1,181 @@
+{
+  "project": "Titli Foundation - Premium NGO Landing Page",
+  "theme_strategy": "Light Cream base with high-contrast Ink dark mode sections. Titli Pink acts as the functional and emotional kinetic trigger. Aesthetic is Apple/UNICEF Editorial quality.",
+  "colors": {
+    "titli_pink": "#EC5A99",
+    "pink_hover": "#D84C8A",
+    "light_pink": "#FFC5DE",
+    "pale_pink": "#FEF1F8",
+    "cream": "#FFFBF7",
+    "ink": "#000000",
+    "meta_gray": "#4A4A4A",
+    "white": "#FFFFFF"
+  },
+  "typography": {
+    "fonts": {
+      "hero_editorial": "Fraunces, serif",
+      "sans": "Inter, sans-serif",
+      "script": "'Shadows Into Light', cursive"
+    },
+    "scales": {
+      "h1": "text-6xl md:text-[80px] lg:text-[120px] leading-[0.9] tracking-tighter font-medium font-['Fraunces']",
+      "h2": "text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight font-['Inter'] font-semibold",
+      "h3": "text-2xl md:text-3xl tracking-tight font-medium font-['Inter']",
+      "h4": "text-lg sm:text-xl font-medium font-['Inter']",
+      "body": "text-base md:text-lg leading-relaxed text-[#4A4A4A] font-['Inter']",
+      "script_accent": "text-3xl md:text-5xl text-[#EC5A99] font-['Shadows_Into_Light'] -rotate-2"
+    }
+  },
+  "spacing_scale": {
+    "values": [8, 16, 24, 32, 48, 64, 96, 128, 160, 200],
+    "gutters": "px-6 md:px-12 xl:px-[240px]",
+    "section_padding": "py-24 md:py-32 lg:py-[160px]",
+    "grid_gap": "gap-[32px]"
+  },
+  "radii": {
+    "sm": "8px",
+    "md": "12px",
+    "lg": "20px",
+    "xl": "28px",
+    "2xl": "40px",
+    "full": "999px"
+  },
+  "shadows": {
+    "soft": "0 8px 30px rgba(0,0,0,0.04)",
+    "lift": "0 20px 40px rgba(0,0,0,0.08)",
+    "hero": "0 30px 60px rgba(236,90,153,0.15)"
+  },
+  "motion": {
+    "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+    "durations": {
+      "fast": "150ms",
+      "base": "320ms",
+      "slow": "600ms",
+      "epic": "900ms"
+    }
+  },
+  "libraries": [
+    "framer-motion",
+    "lucide-react",
+    "react-fast-marquee",
+    "embla-carousel-react",
+    "react-countup",
+    "@studio-freight/react-lenis"
+  ],
+  "layouts_and_components": {
+    "section_1_navigation": {
+      "type": "Sticky Glass Nav",
+      "layout": "fixed top-0 w-full z-50 px-6 md:px-12 xl:px-[240px] py-4",
+      "style": "bg-[#FFFBF7]/80 backdrop-blur-xl border-b border-[#000000]/5",
+      "elements": "Left: Text Logo in Inter bold, Center: Hidden on mobile, 4 links Inter text-sm, Right: Titli Pink Pill Donate Button",
+      "testing": "data-testid='global-nav'"
+    },
+    "section_2_hero": {
+      "type": "Kinetic Editorial Hero",
+      "layout": "min-h-[90vh] flex flex-col justify-center px-6 md:px-12 xl:px-[240px] pt-[120px] pb-24 relative overflow-hidden",
+      "style": "bg-[#FFFBF7]",
+      "elements": [
+        "H1 Fraunces Masked line-by-line reveal via Framer Motion. Text: 'Empowering futures, one classroom at a time.'",
+        "Script accent: 'cup' text or svg circled over 'futures' in Shadows Into Light pink.",
+        "Image: Right-aligned or floating Spotlight clipped frame (rounded-[40px]) with parallax scroll. Use hero image.",
+        "Floating Glass Card: Absolute positioned overlapping bottom-left of image, frosted glass (bg-white/70 backdrop-blur-md) showing '10K+ Students Impacted'"
+      ],
+      "testing": "data-testid='hero-section'"
+    },
+    "section_3_trust_metrics": {
+      "type": "Data Bar",
+      "layout": "grid grid-cols-2 md:grid-cols-4 gap-8 px-6 md:px-12 xl:px-[240px] py-16 md:py-24 border-t border-[#000000]/10",
+      "elements": "4 Cards. Huge Inter bold numbers using react-countup. Small uppercase tracking-widest overlines (text-xs).",
+      "testing": "data-testid='trust-metrics'"
+    },
+    "section_4_how_it_works": {
+      "type": "Vertical Stepper",
+      "layout": "max-w-4xl mx-auto px-6 md:px-12 py-24 md:py-32 flex flex-col gap-16 relative",
+      "elements": [
+        "Numbered Chapters: 01, 02, 03 in Fraunces text-4xl text-[#000000]/20",
+        "Dotted Pink SVG line connecting steps vertically, drawn on scroll using Framer Motion pathLength.",
+        "Title + Paragraph per step."
+      ],
+      "testing": "data-testid='how-it-works-stepper'"
+    },
+    "section_5_why_join": {
+      "type": "Asymmetric Bento Grid",
+      "layout": "grid grid-cols-1 md:grid-cols-12 gap-[32px] px-6 md:px-12 xl:px-[240px] py-24",
+      "style": "Bento boxes use rounded-[28px] or rounded-[40px] with bg-[#FEF1F8] or white + soft shadow.",
+      "spans": "Box 1: col-span-12 md:col-span-8. Box 2: col-span-12 md:col-span-4. Box 3: col-span-12 md:col-span-4. Box 4: col-span-12 md:col-span-8.",
+      "testing": "data-testid='bento-grid'"
+    },
+    "section_6_privacy_trust": {
+      "type": "Dark Editorial",
+      "layout": "bg-[#000000] text-white py-[160px] px-6 md:px-12 xl:px-[240px] flex flex-col md:flex-row gap-16",
+      "style": "Dark Mode. High contrast.",
+      "elements": "Left: Fraunces H2 text-white. Right: 2 Glass Cards (bg-white/10 backdrop-blur-xl border border-white/20 rounded-[28px] p-8) showing certifications/trust.",
+      "testing": "data-testid='privacy-section'"
+    },
+    "section_7_stories_of_impact": {
+      "type": "Horizontal Snap Slider",
+      "layout": "py-32 pl-6 md:pl-12 xl:pl-[240px] overflow-hidden",
+      "elements": "Embla carousel. Cards are w-[85vw] md:w-[60vw] lg:w-[40vw] mr-8 shrink-0 relative rounded-[40px] overflow-hidden group.",
+      "style": "Image fills card. Dark gradient overlay bottom. Text at bottom. Subtle zoom on image hover.",
+      "testing": "data-testid='stories-slider'"
+    },
+    "section_8_schools_marquees": {
+      "type": "Dual Marquee + Floating Map",
+      "layout": "py-24 relative overflow-hidden bg-[#FFFBF7]",
+      "elements": [
+        "Two react-fast-marquee rows (slow speed) moving opposite directions containing School/Sponsor Logos.",
+        "Center: Absolute floating Glass Card (India Map Vector or text 'Operating in 50+ Regions') with high z-index and heavy shadow."
+      ],
+      "testing": "data-testid='schools-marquee'"
+    },
+    "section_9_final_cta": {
+      "type": "Photo Backdrop CTA",
+      "layout": "mx-6 md:mx-12 xl:mx-[240px] rounded-[40px] overflow-hidden relative min-h-[600px] flex items-center justify-center text-center p-8",
+      "style": "Background Image with bg-gradient-to-t from-black/80 via-black/40 to-transparent overlay. Text is white.",
+      "elements": "Fraunces H2. Two Buttons: 1. Primary Titli Pink pill (Live Payment), 2. White outline pill (Link Out).",
+      "testing": "data-testid='final-cta'"
+    },
+    "section_10_footer": {
+      "type": "Dark Footer",
+      "layout": "bg-[#000000] text-[#FFFFFF] pt-32 pb-12 px-6 md:px-12 xl:px-[240px]",
+      "elements": "Top: Newsletter signup (Input + Submit Button in white). Middle: Grid of link columns. Bottom: Socials and copyright.",
+      "testing": "data-testid='footer'"
+    }
+  },
+  "image_urls": [
+    {
+      "url": "https://images.unsplash.com/flagged/photo-1574097656146-0b43b7660cb6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHx3YXJtJTIwY2xhc3Nyb29tJTIwY2hpbGRyZW4lMjBsZWFybmluZyUyMGluZGlhfGVufDB8fHx8MTc4NTUyNjA2N3ww&ixlib=rb-4.1.0&q=85",
+      "description": "Warm classroom learning",
+      "category": "Hero Background or Final CTA"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1572847748080-bac263fae977?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwzfHx3YXJtJTIwY2xhc3Nyb29tJTIwY2hpbGRyZW4lMjBsZWFybmluZyUyMGluZGlhfGVufDB8fHx8MTc4NTUyNjA2N3ww&ixlib=rb-4.1.0&q=85",
+      "description": "Children classroom smiling",
+      "category": "Stories Slider"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1759646828783-7e1b8f02f89b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA4Mzl8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMHNjaG9vbCUyMHdvcmtzaG9wJTIwc21pbGluZ3xlbnwwfHx8fDE3ODU1MjYwNjd8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Clay pot workshop",
+      "category": "Stories Slider"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1762340274481-73cde84f3374?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODR8MHwxfHNlYXJjaHw0fHxjb21wYW55JTIwbG9nbyUyMHNwb25zb3J8ZW58MHx8fHwxNzg1NTI2MDc3fDA&ixlib=rb-4.1.0&q=85",
+      "description": "LinkedIn logo",
+      "category": "Marquee Logos"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1618588429012-0559f1cbc5aa?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODR8MHwxfHNlYXJjaHwxfHxjb21wYW55JTIwbG9nbyUyMHNwb25zb3J8ZW58MHx8fHwxNzg1NTI2MDc3fDA&ixlib=rb-4.1.0&q=85",
+      "description": "CAT Logo",
+      "category": "Marquee Logos"
+    }
+  ],
+  "universal_guidelines_for_main_agent": [
+    "You MUST use Lenis for smooth scrolling across the entire app for a premium feel.",
+    "Do NOT use pure #000000 unless specified in the locked tokens. We use #000000 (Ink) only for the dark sections.",
+    "All headings H1-H3 MUST have tracking-tight or tracking-tighter applied.",
+    "Do NOT use transparent navigation backgrounds when content scrolls beneath it. Use glassmorphism: bg-[#FFFBF7]/80 and backdrop-blur-xl.",
+    "Use Framer Motion for line-by-line reveal in the Hero section and pathLength animation for the stepper connector.",
+    "Always provide data-testid for all interactive components.",
+    "The Hero image overlay must NEVER be fully transparent. Do not use generic full-screen gradients. Provide spotlight or clipped frame designs."
+  ]
+}
