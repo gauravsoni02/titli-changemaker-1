@@ -16,6 +16,9 @@ import { FinalCTA } from "@/components/titli/FinalCTA";
 import { Footer } from "@/components/titli/Footer";
 import { SchoolRegisterModal } from "@/components/titli/SchoolRegisterModal";
 import { StudentCampaignModal } from "@/components/titli/StudentCampaignModal";
+import { AuthProvider } from "@/auth/AuthContext";
+import LoginPage from "@/pages/LoginPage";
+import DashboardPage from "@/pages/DashboardPage";
 
 function useLenis() {
   useEffect(() => {
@@ -38,26 +41,20 @@ function Landing() {
 
   return (
     <div className="App">
-      <div id="top" />
-      <Nav onRegisterSchool={() => setSchoolOpen(true)} />
-      <Hero
-        onRegisterSchool={() => setSchoolOpen(true)}
-        onStartFundraiser={() => setStudentOpen(true)}
-      />
-      <HowItWorks />
-      <ForSchools onRegister={() => setSchoolOpen(true)} />
-      <ForStudents onStart={() => setStudentOpen(true)} />
-      <Impact />
-      <WhereItGoes />
-      <Partners />
-      <BreakTheTaboo />
-      <FinalCTA
-        onRegisterSchool={() => setSchoolOpen(true)}
-        onStartFundraiser={() => setStudentOpen(true)}
-      />
-      <Footer />
-      <SchoolRegisterModal open={schoolOpen} onClose={() => setSchoolOpen(false)} />
-      <StudentCampaignModal open={studentOpen} onClose={() => setStudentOpen(false)} />
+      <div id="top"/>
+      <Nav onRegisterSchool={() => setSchoolOpen(true)}/>
+      <Hero onRegisterSchool={() => setSchoolOpen(true)} onStartFundraiser={() => setStudentOpen(true)}/>
+      <HowItWorks/>
+      <ForSchools onRegister={() => setSchoolOpen(true)}/>
+      <ForStudents onStart={() => setStudentOpen(true)}/>
+      <Impact/>
+      <WhereItGoes/>
+      <Partners/>
+      <BreakTheTaboo/>
+      <FinalCTA onRegisterSchool={() => setSchoolOpen(true)} onStartFundraiser={() => setStudentOpen(true)}/>
+      <Footer/>
+      <SchoolRegisterModal open={schoolOpen} onClose={() => setSchoolOpen(false)}/>
+      <StudentCampaignModal open={studentOpen} onClose={() => setStudentOpen(false)}/>
     </div>
   );
 }
@@ -65,9 +62,13 @@ function Landing() {
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Landing/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/dashboard" element={<DashboardPage/>}/>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

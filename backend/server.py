@@ -1,15 +1,20 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Request
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Depends
+from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import io
+import csv
 import logging
 import httpx
+import bcrypt
+import jwt
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 from typing import Optional, List
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from emergentintegrations.payments.stripe.checkout import (
     StripeCheckout,
@@ -79,6 +84,12 @@ class SchoolRegisterRequest(BaseModel):
     coordinator_email: EmailStr
     phone: Optional[str] = ""
     size: Optional[str] = ""
+    password: str
+
+
+class CoordinatorLoginRequest(BaseModel):
+    email: EmailStr
+    password: str
 
 
 class StudentCampaignRequest(BaseModel):
@@ -187,6 +198,52 @@ async def contact(req: ContactMessageRequest):
 # ==========================
 # Schools & Students (fundraising program)
 # ==========================
+JWT_SECRET = os.environ.get("JWT_SECRET", "dev-secret-change-me")
+JWT_ALG = "HS256"
+
+
+def hash_password(p: str) -> str:
+    return bcrypt.hashpw(p.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
+
+def verify_password(p: str, h: str) -> bool:
+    try:
+        return bcrypt.checkpw(p.encode("utf-8"), h.encode("utf-8"))
+    except Exception:
+        return False
+
+
+def create_access_token(coordinator_id: str, email: str) -> str:
+    payload = {
+        "sub": coordinator_id,
+        "email": email,
+        "role": "coordinator",
+        "exp": datetime.now(timezone.utc) + timedelta(hours=24),
+        "type": "access",
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
+
+
+async def get_current_coordinator(request: Request):
+    auth = request.headers.get("Authorization", "")
+    if not auth.startswith("Bearer "):
+        raise HTTPException(401, "Not authenticated")
+    token = auth[7:]
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+        if payload.get("type") != "access":
+            raise HTTPException(401, "Invalid token type")
+        c = await db.school_registrations.find_one({"id": payload["sub"]}, {"_id": 0})
+        if not c:
+            raise HTTPException(401, "Coordinator not found")
+        c.pop("password_hash", None)
+        return c
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(401, "Token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(401, "Invalid token")
+
+
 SCHOOL_HTML = """
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FEF1F8;padding:48px 0;font-family:Manrope,Arial,sans-serif;color:#111">
   <tr><td align="center">
@@ -210,14 +267,19 @@ SCHOOL_HTML = """
 
 @api_router.post("/schools/register")
 async def schools_register(req: SchoolRegisterRequest):
+    existing = await db.school_registrations.find_one({"coordinator_email": req.coordinator_email.lower()})
+    if existing:
+        raise HTTPException(409, "A school with this coordinator email is already registered")
+    coord_id = str(uuid.uuid4())
     doc = {
-        "id": str(uuid.uuid4()),
+        "id": coord_id,
         "school_name": req.school_name,
         "city": req.city,
         "coordinator_name": req.coordinator_name,
-        "coordinator_email": req.coordinator_email,
+        "coordinator_email": req.coordinator_email.lower(),
         "phone": req.phone,
         "size": req.size,
+        "password_hash": hash_password(req.password),
         "status": "pending",
         "created_at": now_iso(),
     }
@@ -227,7 +289,88 @@ async def schools_register(req: SchoolRegisterRequest):
         subject="Welcome to Titli · Your school is registered",
         html=SCHOOL_HTML,
     )
-    return {"status": "registered", "id": doc["id"], "email_sent": email_sent}
+    token = create_access_token(coord_id, doc["coordinator_email"])
+    doc.pop("_id", None)
+    doc.pop("password_hash", None)
+    return {
+        "status": "registered",
+        "id": coord_id,
+        "email_sent": email_sent,
+        "access_token": token,
+        "coordinator": doc,
+    }
+
+
+@api_router.post("/auth/coordinator/login")
+async def coordinator_login(req: CoordinatorLoginRequest):
+    email = req.email.lower()
+    coord = await db.school_registrations.find_one({"coordinator_email": email})
+    if not coord or not coord.get("password_hash"):
+        raise HTTPException(401, "Invalid email or password")
+    if not verify_password(req.password, coord["password_hash"]):
+        raise HTTPException(401, "Invalid email or password")
+    token = create_access_token(coord["id"], email)
+    coord.pop("_id", None)
+    coord.pop("password_hash", None)
+    return {"access_token": token, "coordinator": coord}
+
+
+@api_router.get("/auth/coordinator/me")
+async def coordinator_me(current=Depends(get_current_coordinator)):
+    return current
+
+
+@api_router.get("/schools/dashboard")
+async def schools_dashboard(current=Depends(get_current_coordinator)):
+    school = current["school_name"]
+    campaigns_cursor = db.student_campaigns.find({"school": school}, {"_id": 0})
+    campaigns = await campaigns_cursor.to_list(500)
+    total_raised = sum(float(c.get("raised_amount") or 0) for c in campaigns)
+    total_target = sum(float(c.get("target_amount") or 0) for c in campaigns)
+    return {
+        "school": current,
+        "summary": {
+            "campaigns_count": len(campaigns),
+            "active_campaigns": sum(1 for c in campaigns if c.get("status") == "active"),
+            "total_raised": total_raised,
+            "total_target": total_target,
+            "unique_students": len({c.get("email") for c in campaigns}),
+        },
+        "campaigns": campaigns,
+    }
+
+
+@api_router.get("/schools/export/80g")
+async def schools_export_80g(current=Depends(get_current_coordinator)):
+    school = current["school_name"]
+    campaigns = await db.student_campaigns.find({"school": school}, {"_id": 0}).to_list(1000)
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow([
+        "Certificate No", "Student Name", "Email", "Grade",
+        "School", "Target (INR)", "Raised (INR)", "Status",
+        "Campaign Started", "80G Reference",
+    ])
+    for i, c in enumerate(campaigns, start=1):
+        writer.writerow([
+            f"TITLI-80G-{datetime.now().year}-{i:05d}",
+            c.get("student_name", ""),
+            c.get("email", ""),
+            c.get("grade", ""),
+            c.get("school", ""),
+            c.get("target_amount", 0),
+            c.get("raised_amount", 0),
+            c.get("status", ""),
+            c.get("created_at", ""),
+            "AAETI4571P / 80G eligible",
+        ])
+    buf.seek(0)
+    filename = f"titli-80g-{school.replace(' ', '-')}-{datetime.now().strftime('%Y%m%d')}.csv"
+    return StreamingResponse(
+        iter([buf.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 STUDENT_HTML = """

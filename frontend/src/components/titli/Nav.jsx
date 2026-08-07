@@ -62,6 +62,13 @@ export function Nav({ onRegisterSchool }) {
         >
           Register School
         </TitliButton>
+        <a
+          href="/login"
+          data-testid="nav-signin"
+          className="hidden md:inline-flex items-center text-[12px] text-black/55 hover:text-[#EC5A99] transition-colors font-medium pr-1"
+        >
+          Sign in
+        </a>
       </div>
     </motion.header>
   );
