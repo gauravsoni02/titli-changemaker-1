@@ -1,38 +1,26 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ScriptAccent, Butterfly } from "./ScriptAccent";
+import { CupOval, ScribbleWord, TitliButterfly } from "./ScriptAccent";
 import { TitliButton, EyebrowLabel } from "./TitliButton";
 import { HERO } from "@/constants/testIds";
 
+// Warm authentic Indian community photography — Titli deployment locations
 const HERO_IMG =
-  "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1400&q=80";
+  "https://cdn.sanity.io/images/a2qr83b2/production/d3078eaf4ed94bf01b3b5eedc0fece2f6ae1d3a6-1200x1600.jpg?auto=format&fit=max&w=1100&q=80";
+const HERO_IMG_2 =
+  "https://www.titlifoundation.in/images/caro%201.png";
 
-const line1 = ["Every", "child", "deserves"];
-const line2 = ["a", "future"];
-const line3 = ["worth", "reaching", "for."];
-
-export function Hero({ onDonate }) {
+export function Hero({ onRegisterSchool, onStartFundraiser }) {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const bfY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const bfY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
-  const container = {
-    initial: {},
-    animate: { transition: { staggerChildren: 0.09, delayChildren: 0.35 } },
-  };
+  const container = { initial: {}, animate: { transition: { staggerChildren: 0.08, delayChildren: 0.35 } } };
   const word = {
-    initial: { y: "110%", opacity: 0, rotate: 3 },
-    animate: {
-      y: 0,
-      opacity: 1,
-      rotate: 0,
-      transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
-    },
+    initial: { y: "110%", opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
@@ -40,30 +28,67 @@ export function Hero({ onDonate }) {
       id="hero"
       ref={ref}
       data-testid={HERO.section}
-      className="relative min-h-[100vh] pt-[120px] pb-24 overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #FFFBF7 0%, #FEF1F8 100%)" }}
+      className="relative min-h-[100vh] pt-[140px] pb-24 overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #FEF1F8 0%, #FEF1F8 60%, #FFFBF7 100%)" }}
     >
-      {/* Butterfly watermark */}
       <motion.div
         style={{ y: bfY }}
-        className="pointer-events-none absolute top-[15%] right-[8%] opacity-40 hidden lg:block animate-butterfly-flutter"
+        className="pointer-events-none absolute top-[18%] left-[10%] opacity-30 hidden lg:block animate-flutter"
         aria-hidden
       >
-        <Butterfly size={260} />
+        <TitliButterfly size={72} />
       </motion.div>
-
-      {/* Grain overlay */}
       <div className="absolute inset-0 grain pointer-events-none" />
 
-      <div className="titli-container relative z-10 grid grid-cols-12 gap-8 items-center">
-        {/* LEFT — copy */}
-        <div className="col-span-12 lg:col-span-7">
+      <div className="titli-container relative z-10 grid grid-cols-12 gap-8 md:gap-14 items-center">
+        {/* LEFT — image */}
+        <div className="col-span-12 lg:col-span-6 order-2 lg:order-1">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+            className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-hero"
+          >
+            <motion.img
+              src={HERO_IMG}
+              onError={(e) => { e.currentTarget.src = HERO_IMG_2; }}
+              alt="Titli Foundation volunteers with community members"
+              style={{ y: imgY, scale: imgScale }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 pointer-events-none" style={{
+              background: "linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%)"
+            }} />
+            <div className="absolute top-5 left-5 rounded-full bg-white/90 backdrop-blur px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] text-[#EC5A99] uppercase">
+              In partnership with Titli
+            </div>
+          </motion.div>
+
+          {/* Floating stat pill under image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 1.3 }}
+            className="absolute -top-2 lg:top-auto lg:-bottom-4 right-2 lg:-right-6 max-w-[240px] rounded-[20px] p-4 bg-white shadow-lift border border-[#FFC5DE]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#EC5A99] flex items-center justify-center text-white font-extrabold">42</div>
+              <div>
+                <div className="text-[13px] font-semibold text-[#111]">schools raising</div>
+                <div className="text-[11px] text-black/50">right now, live</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* RIGHT — copy */}
+        <div className="col-span-12 lg:col-span-6 order-1 lg:order-2">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
-            <EyebrowLabel>Chapter 01 — The Titli Foundation</EyebrowLabel>
+            <EyebrowLabel>Schools · Students · #BreakTheTaboo</EyebrowLabel>
           </motion.div>
 
           <motion.h1
@@ -71,33 +96,22 @@ export function Hero({ onDonate }) {
             variants={container}
             initial="initial"
             animate="animate"
-            className="mt-6 font-editorial font-medium tracking-tight leading-[0.92] text-black balance"
-            style={{ fontSize: "clamp(48px, 8.6vw, 132px)" }}
+            className="mt-6 font-sans font-extrabold tracking-tight leading-[1.02] text-[#111] balance"
+            style={{ fontSize: "clamp(44px, 6.5vw, 88px)" }}
           >
             <span className="block overflow-hidden">
               <motion.span variants={word} className="inline-block">
-                {line1.map((w, i) => (
-                  <span key={i} className="inline-block mr-[0.22em]">
-                    {w}
-                  </span>
-                ))}
+                Change begins,
               </motion.span>
             </span>
             <span className="block overflow-hidden">
               <motion.span variants={word} className="inline-block">
-                <span className="inline-block mr-[0.22em]">{line2[0]}</span>
-                <span className="inline-block mr-[0.22em] relative">
-                  <ScriptAccent rotation={-4}>future</ScriptAccent>
-                </span>
+                one <CupOval size={112} className="mx-1 md:mx-2 relative -top-1" /> at a time.
               </motion.span>
             </span>
-            <span className="block overflow-hidden">
-              <motion.span variants={word} className="inline-block italic text-black/85 font-light">
-                {line3.map((w, i) => (
-                  <span key={i} className="inline-block mr-[0.22em]">
-                    {w}
-                  </span>
-                ))}
+            <span className="block overflow-hidden mt-2">
+              <motion.span variants={word} className="inline-block font-semibold text-[#EC5A99]" style={{ fontSize: "0.55em" }}>
+                Now, schools raise for it.
               </motion.span>
             </span>
           </motion.h1>
@@ -105,128 +119,57 @@ export function Hero({ onDonate }) {
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.6 }}
-            className="mt-10 max-w-[520px] text-[17px] leading-[1.6] text-[#4A4A4A]"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.35 }}
+            className="mt-8 max-w-[520px] text-[16px] md:text-[18px] leading-[1.6] text-[#4A4A4A] font-body"
           >
-            For eleven years, we've walked into government classrooms across
-            India with quiet resolve — building libraries, training teachers,
-            and giving every child a doorway that opens outward.
+            Titli Foundation stands against period poverty across India. Now,
+            your school can join the movement — students launch fundraisers,
+            we deliver menstrual dignity to underprivileged girls in your name.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.75 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.5 }}
+            className="mt-9 flex flex-wrap items-center gap-3"
           >
-            <TitliButton
-              size="lg"
-              onClick={onDonate}
-              data-testid={HERO.ctaPrimary}
-              glow
-            >
-              Donate — become the change
-              <span aria-hidden>↗</span>
+            <TitliButton size="lg" onClick={onRegisterSchool} data-testid={HERO.ctaPrimary} glow>
+              Register your school
+              <span aria-hidden>→</span>
             </TitliButton>
             <TitliButton
               variant="ghost"
               size="lg"
-              as="a"
-              href="#how"
+              onClick={onStartFundraiser}
               data-testid={HERO.ctaSecondary}
             >
-              See how it works
+              I&apos;m a student — start fundraising
             </TitliButton>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 2 }}
-            className="mt-14 flex items-center gap-6 text-[12px] uppercase tracking-[0.22em] text-black/40"
+            transition={{ duration: 0.9, delay: 1.9 }}
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] uppercase tracking-[0.22em] text-black/45 font-semibold"
           >
-            <span>Since 2013</span>
-            <span className="w-6 h-px bg-black/20" />
             <span>80G Certified</span>
-            <span className="w-6 h-px bg-black/20" />
-            <span>Delhi · Mumbai · Bengaluru</span>
-          </motion.div>
-        </div>
-
-        {/* RIGHT — spotlight framed image + floating impact card */}
-        <div className="col-span-12 lg:col-span-5 relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 40 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
-            className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-hero"
-          >
-            <motion.img
-              src={HERO_IMG}
-              alt="A child reading in a classroom"
-              style={{ y: imgY, scale: imgScale }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {/* soft spotlight overlay */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(120% 80% at 50% 30%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%)",
-              }}
-            />
-            {/* number ticker top-left */}
-            <div className="absolute top-6 left-6 font-editorial text-white text-[13px] tracking-widest uppercase opacity-90 mix-blend-difference">
-              N° 001 / Portrait
-            </div>
-          </motion.div>
-
-          {/* Floating glass impact card */}
-          <motion.div
-            data-testid={HERO.impactCard}
-            initial={{ opacity: 0, x: -30, y: 20 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
-            className="absolute -left-4 lg:-left-16 bottom-8 max-w-[280px] rounded-[24px] p-5 backdrop-blur-2xl bg-white/70 border border-white shadow-lift"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#EC5A99] text-white flex items-center justify-center text-[18px] font-editorial">
-                ✻
-              </div>
-              <div className="text-[11px] uppercase tracking-[0.22em] text-black/50">
-                Impact · YTD
-              </div>
-            </div>
-            <div className="mt-3 font-editorial text-[38px] leading-none tracking-tight text-black">
-              10,240
-            </div>
-            <div className="mt-1 text-[13px] text-[#4A4A4A]">
-              children reading better today than last year.
-            </div>
-            <div className="mt-4 h-1 w-full rounded-full bg-black/5 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "78%" }}
-                transition={{ duration: 1.8, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full bg-[#EC5A99]"
-              />
-            </div>
-            <div className="mt-2 text-[11px] uppercase tracking-widest text-black/45">
-              78% toward our 2026 goal
-            </div>
+            <span className="w-1 h-1 rounded-full bg-black/25" />
+            <span>Zero cost to schools</span>
+            <span className="w-1 h-1 rounded-full bg-black/25" />
+            <span>#BreakTheTaboo</span>
           </motion.div>
         </div>
       </div>
 
-      {/* scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-black/40"
+        transition={{ delay: 2.1, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-black/40 font-semibold"
       >
         <span className="w-px h-8 bg-black/25 animate-pulse" />
-        Scroll to unfold
+        Scroll to see how it works
       </motion.div>
     </section>
   );

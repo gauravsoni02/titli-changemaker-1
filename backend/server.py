@@ -72,6 +72,23 @@ class ContactMessageRequest(BaseModel):
     message: str
 
 
+class SchoolRegisterRequest(BaseModel):
+    school_name: str
+    city: str
+    coordinator_name: str
+    coordinator_email: EmailStr
+    phone: Optional[str] = ""
+    size: Optional[str] = ""
+
+
+class StudentCampaignRequest(BaseModel):
+    student_name: str
+    email: EmailStr
+    school: str
+    grade: Optional[str] = ""
+    target_amount: float = 0
+
+
 class DonationCheckoutRequest(BaseModel):
     package_id: Optional[str] = None  # "spark" | "seed" | "grow" | "custom"
     custom_amount: Optional[float] = None
@@ -165,6 +182,95 @@ async def contact(req: ContactMessageRequest):
     }
     await db.contact_messages.insert_one(doc)
     return {"status": "received", "id": doc["id"]}
+
+
+# ==========================
+# Schools & Students (fundraising program)
+# ==========================
+SCHOOL_HTML = """
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FEF1F8;padding:48px 0;font-family:Manrope,Arial,sans-serif;color:#111">
+  <tr><td align="center">
+    <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:24px;padding:40px;box-shadow:0 20px 40px rgba(236,90,153,0.10)">
+      <tr><td>
+        <div style="font-size:12px;letter-spacing:0.28em;color:#EC5A99;text-transform:uppercase;font-weight:700;margin-bottom:16px">Titli Foundation · Schools</div>
+        <h1 style="font-size:32px;line-height:1.05;letter-spacing:-0.5px;margin:0 0 16px;color:#111">Thanks for registering your school.</h1>
+        <p style="font-size:15px;line-height:1.65;color:#4A4A4A;margin:0 0 16px">
+          A dedicated Titli coordinator will reach out to you within one working day.
+          You'll receive: your school dashboard, class fundraiser links, and a WhatsApp
+          contact for direct support.
+        </p>
+        <div style="height:1px;background:#FFC5DE;margin:28px 0"></div>
+        <p style="font-size:13px;color:#4A4A4A;margin:0">— The Titli Foundation team · #BreakTheTaboo</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+"""
+
+
+@api_router.post("/schools/register")
+async def schools_register(req: SchoolRegisterRequest):
+    doc = {
+        "id": str(uuid.uuid4()),
+        "school_name": req.school_name,
+        "city": req.city,
+        "coordinator_name": req.coordinator_name,
+        "coordinator_email": req.coordinator_email,
+        "phone": req.phone,
+        "size": req.size,
+        "status": "pending",
+        "created_at": now_iso(),
+    }
+    await db.school_registrations.insert_one(doc)
+    email_sent = await send_email(
+        recipient=req.coordinator_email,
+        subject="Welcome to Titli · Your school is registered",
+        html=SCHOOL_HTML,
+    )
+    return {"status": "registered", "id": doc["id"], "email_sent": email_sent}
+
+
+STUDENT_HTML = """
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FEF1F8;padding:48px 0;font-family:Manrope,Arial,sans-serif;color:#111">
+  <tr><td align="center">
+    <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:24px;padding:40px;box-shadow:0 20px 40px rgba(236,90,153,0.10)">
+      <tr><td>
+        <div style="font-size:12px;letter-spacing:0.28em;color:#EC5A99;text-transform:uppercase;font-weight:700;margin-bottom:16px">Your campaign is live 🎉</div>
+        <h1 style="font-size:32px;line-height:1.05;letter-spacing:-0.5px;margin:0 0 16px;color:#111">Go raise, changemaker.</h1>
+        <p style="font-size:15px;line-height:1.65;color:#4A4A4A;margin:0 0 16px">
+          Your shareable link and QR poster are attached to this thread.
+          Every rupee routes directly to Titli's on-ground work — you'll get
+          field photographs when the impact is delivered.
+        </p>
+        <div style="height:1px;background:#FFC5DE;margin:28px 0"></div>
+        <p style="font-size:13px;color:#4A4A4A;margin:0">— Titli Foundation · #BreakTheTaboo</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+"""
+
+
+@api_router.post("/students/campaigns")
+async def students_campaigns(req: StudentCampaignRequest):
+    doc = {
+        "id": str(uuid.uuid4()),
+        "student_name": req.student_name,
+        "email": req.email,
+        "school": req.school,
+        "grade": req.grade,
+        "target_amount": float(req.target_amount or 0),
+        "raised_amount": 0.0,
+        "status": "active",
+        "created_at": now_iso(),
+    }
+    await db.student_campaigns.insert_one(doc)
+    email_sent = await send_email(
+        recipient=req.email,
+        subject="Your Titli fundraiser is live",
+        html=STUDENT_HTML,
+    )
+    return {"status": "created", "id": doc["id"], "email_sent": email_sent}
 
 
 # ==========================

@@ -1,77 +1,57 @@
-# Titli Foundation — Premium NGO Landing Page
+# Titli Foundation — Schools Fundraising Landing (v2)
 
-## Original Problem Statement
-A single-page, desktop-first (1920px) premium landing page for Titli Foundation
-that evolves the existing brand into an editorial, Apple/Stripe/UNICEF-quality
-experience. Award-worthy (Awwwards SotD level) design — bold, cohesive,
-kinetic hero with masked line-by-line reveal, editorial script accent, numbered
-manifesto chapters, editorial marquee, purposeful motion, Lenis smooth scroll,
-subtle parallax in hero.
+## Actual product (locked)
+Landing page for **Titli Foundation's school fundraising programme**:
+- Schools register → students launch class fundraisers → funds go to Titli's
+  period-dignity work (menstrual cups, sanitary pads, awareness workshops).
+- Titli Foundation is India's #BreakTheTaboo NGO fighting period poverty.
+- Reference site: https://titlifoundation.in
 
-## Architecture
-- Frontend: React (CRA + craco), Tailwind, framer-motion, embla-carousel-react,
-  react-fast-marquee, react-countup, lenis
-- Backend: FastAPI + Motor (async MongoDB) + emergentintegrations (Stripe Flow B)
-- Database: MongoDB — collections: newsletter_subscribers, contact_messages, donation_intents
-- Fonts: Fraunces (editorial hero), Inter (body), Shadows Into Light (script accent)
+## Visual DNA (locked from real site)
+- Nav = floating white pill (butterfly + "TITLI FOUNDATION" wordmark + pink Donate/Register pill)
+- Font = **Manrope** bold humanist sans (NOT Fraunces)
+- Signature "cup" script inside pink hand-drawn oval (cupCircle.svg from titlifoundation.in)
+- Body = Inter
+- Script accent = Shadows Into Light (for scribbled highlight words)
+- Sections alternate cream #FFFBF7 and pale pink #FEF1F8
+- Footer = solid Titli Pink #EC5A99 with white text (signature look)
+- Warm authentic photography sourced from titlifoundation.in Sanity CDN
 
-## Locked Design Tokens
-- Colors: Titli Pink #EC5A99, Pink Hover #D84C8A, Light Pink #FFC5DE,
-  Pale Pink #FEF1F8, Cream #FFFBF7, Ink #000000, Meta Gray #4A4A4A
-- Spacing: 8/16/24/32/48/64/96/128/160/200
-- Radii: 8/12/20/28/40/999
-- Motion easing: cubic-bezier(0.22, 1, 0.36, 1)
+## Section flow
+1. Sticky floating pill Nav
+2. Hero — "Change begins, one [cup] at a time. Now, schools raise for it."
+3. How It Works — 3-step animated stepper (Register / Launch / Deliver)
+4. For Schools — bento (dashboard, ₹0/year, 80G, WhatsApp coordinator, field report)
+5. For Students — image + 6 perks + "your fundraiser is your voice"
+6. Impact — real Titli stats (10k pads / 500 cups / 3.5k volunteers / 60 campaigns)
+7. Where Donations Go — SOS Village · Pondicherry · Kanpur snap carousel
+8. Partners — dual marquee of REAL Titli logos (Delhi Police, Pee Safe, Sirona, IIT Kanpur, SOS, etc.)
+9. #BreakTheTaboo manifesto
+10. Final CTA — split card: pink Register school | photo Start fundraiser
+11. Newsletter band + Solid pink footer with real contact info
 
-## Sections Implemented (P0 — all done)
-1. Sticky glass Nav (scroll-triggered hairline)
-2. Kinetic Hero — masked line-by-line reveal, script "future" oval accent,
-   parallax spotlight image, floating glass impact card with progress bar
-3. Trust Metrics — 4-card row, react-countup on scroll, hover pink hairline
-4. How It Works — 3 chapters, animated dotted pink SVG connector via pathLength
-5. Why Join — asymmetric 12-col bento grid (image cards, transparency %, tax,
-   quote block with image half)
-6. Privacy & Trust — dark editorial section, sticky headline, 3 glass cards
-7. Stories of Impact — Embla horizontal snap slider, 5 stories, prev/next,
-   progress bar
-8. Schools — dual opposite marquees + centered floating India map card with
-   pulsing pink region dots + hover tooltip
-9. Final CTA — full-bleed photo backdrop, gradient overlay, butterfly flutter,
-   dual buttons (Stripe checkout + external link-out)
-10. Footer — dark, newsletter with arrow→checkmark on success, 4 link columns,
-    huge editorial "titli." wordmark
+## Backend
+- `POST /api/schools/register` — school registration with confirmation email
+- `POST /api/students/campaigns` — student campaign creation with confirmation email
+- `POST /api/newsletter/subscribe` — newsletter subscription
+- `POST /api/donations/checkout` — Stripe checkout (kept live, undecided by user)
+- `GET /api/donations/status/{session_id}` — status poll
+- `POST /api/webhook/stripe` — webhook
+- MongoDB collections: school_registrations, student_campaigns, newsletter_subscribers, donation_intents
 
 ## Integrations
-- Stripe Flow B (BYOK) via emergentintegrations
-  - Env: STRIPE_API_KEY=sk_test_emergent (pre-injected)
-  - Fixed packages (Spark $500 / Seed $1500 / Grow $5000) + custom amount
-  - Webhook at /api/webhook/stripe (per Flow B convention)
-  - Server-side amount validation, DB record before redirect, polling on success
-- Resend (Emergent-managed) newsletter confirmation email
-  - Env: EMERGENT_EMAIL_KEY, EMAIL_FROM_NAME=Titli Foundation
-  - Note: sends may hit 422 in the shared preview environment for
-    non-deliverable/test recipient addresses; DB storage succeeds regardless
+- Stripe Flow B via emergentintegrations (sk_test_emergent) — kept, currently unused in UI
+- Resend via EMERGENT_EMAIL_KEY — for confirmation emails
 
-## API Endpoints (all /api prefix)
-- GET  /                        — health
-- POST /newsletter/subscribe    — saves email + sends confirmation
-- GET  /newsletter/count
-- POST /contact                 — saves contact msg
-- POST /donations/checkout      — creates Stripe checkout session
-- GET  /donations/status/{sid}  — polling endpoint
-- POST /webhook/stripe          — Stripe webhook (Flow B path)
+## Design choices (user-directed)
+- No leaderboard (user wanted no sense of competition)
+- Real Titli partner logos on marquee
+- Colors verified against titlifoundation.in section-by-section
+- Donation flow present but not the primary CTA — Register/Fundraise leads
 
-## Routes (Frontend)
-- /                    — landing page
-- /donation/success    — polls status, shows thank-you
-- /donation/cancel     — friendly cancel page
-
-## Verified
-- Backend curl: /api/, /api/newsletter/subscribe, /api/donations/checkout all 200
-- Frontend screenshots: hero, metrics, steps, privacy, stories, bento, CTA, footer
-- Donate modal + custom amount + newsletter success state all working
-
-## Next Priority Backlog
-- Real photography swap (client to supply)
-- Confirmation email delivery in production (auto-resolves post-deploy)
-- Mobile design track (separate)
-- Real Razorpay/UPI addition alongside Stripe if requested
+## Next priority backlog
+- Wire donation into student campaigns (per-campaign Stripe link)
+- School dashboard (post-login)
+- Student campaign public page with QR code
+- Blog carousel pulling real Titli blog posts
+- Confirmation email delivery (Resend 422 in preview — resolves post-deploy)
