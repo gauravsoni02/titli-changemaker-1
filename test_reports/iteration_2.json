@@ -1,0 +1,33 @@
+{
+  "summary": "Frontend-only regression + feature test of WhereItGoes carousel on 1920x1000. 7/8 requirements PASS. Only LAYOUT initial-view test partially fails: with align:'center' + loop:true, slide-0 renders at x=700 on the 1920 viewport (~700px empty gap on left before Location 001). Image-cover, autoplay+pause-on-hover, 3 progress dots + click nav, field-report modal (open via click + Enter, close via btn + backdrop, all required copy present, dialog aria), keyboard ArrowLeft/Right (scoped to viewport + inert in INPUT) all pass. No console errors related to the carousel.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "WhereItGoes carousel (data-testid=stories-slider)",
+        "issue": "Initial view still shows large empty gap on the LEFT before the first card. story-slide-0 bounding rect left=700px on a 1920px viewport (delta 700px vs required <~200px). Slides 0/1/2 span x=700→2324 — visibly clustered to the right half. Root cause: align:'center' centers the FIRST snap at the viewport center and Embla only injects loop-clones on the left AFTER the user scrolls (or autoplay ticks). Options: switch align to 'start' (slide-0 at x≈0, subsequent slides fill the row); OR set startIndex to LOCATIONS.length (start at the duplicated 2nd copy so clones are already present on both sides); OR add left padding to the container so the peek-in slide from the loop set is visible immediately.",
+        "selector": "[data-testid='story-slide-0']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/test_reports/carousel_initial.png", "/app/test_reports/modal.png"],
+  "action_items": [
+    "Fix the initial-view left gap: set startIndex to LOCATIONS.length (=3) so Embla starts inside the duplicated set with clones already on both sides — this preserves align:'center' and the parallax feel while eliminating the gap. Alternate: change align to 'start'.",
+    "Optional: bump loop point pre-computation by increasing slidesToScroll or duplicating LOCATIONS 3x instead of 2x if 6 slides is not enough for wider viewports."
+  ],
+  "critical_code_review_comments": [
+    "Escape key does not close the modal — role=dialog + aria-modal=true is set but no keydown listener for Escape. Minor accessibility gap.",
+    "onMouseLeave calls autoplay.current?.play() unconditionally; consider first checking if autoplay was previously enabled (stopOnInteraction is false so this is safe today, but fragile if options change).",
+    "Duplicating slides in the DOM (slides.length = 6) plus Embla's own loop cloning may double-clone in some cases; verify no memory-leak reInit warning under long usage.",
+    "The scroll-container framer-motion warning (whileInView on card) shows in console — non-blocking but worth silencing by ensuring parent has position:relative (WhereItGoes section already does, but the wrapper article uses position:relative via className='relative'). Harmless."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "87% (7/8 requirements pass; only initial-layout gap unresolved)"},
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "After main agent adjusts startIndex or align, re-verify: (a) 3 slides visible immediately with story-slide-0 left within ~200px of carousel viewport left; (b) image-cover still holds after change (may need to increase parallax clamp if slides are anchored to edge); (c) other features remain green. Test viewport 1920x1000."
+}

@@ -1,0 +1,31 @@
+{
+  "summary": "Re-verification retest for WhereItGoes carousel. Layout fix (startIndex: LOCATIONS.length) and image-cover invariants PASS at 1920x1000. However, the claimed Escape-key handler to close the field-report modal is NOT implemented in WhereItGoes.jsx — modal opens on click but does not close on Escape.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "WhereItGoes field-report modal",
+        "issue": "Escape key does NOT close the location-modal. Verified: pressed Escape after opening via story-slide-1 — modal remained visible (is_visible=True). Grep of /app/frontend/src/components/titli/WhereItGoes.jsx shows no 'Escape' handler and no useEffect wired to setModalItem(null) for keydown. Only Enter/Space open handlers exist (line 183) and ArrowLeft/ArrowRight for carousel (lines 120-121).",
+        "selector": "[data-testid='location-modal']",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Add the promised Escape-key useEffect in /app/frontend/src/components/titli/WhereItGoes.jsx that listens on window keydown and calls setModalItem(null) when e.key === 'Escape' (only while modalItem is truthy). The main agent's change was reported but did not land in the file."
+  ],
+  "critical_code_review_comments": [
+    "Main agent reported adding an Escape useEffect but the change is missing from WhereItGoes.jsx (no 'Escape' string in file). This is a regression / false-positive report from previous iteration.",
+    "Layout fix using startIndex: LOCATIONS.length works correctly — first slide sits at container-left+16px (700 vs 684) with 3 cards evenly spanning viewport."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "66% (2 of 3 retest items pass)"},
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Layout (test 1) and image-cover (test 2) are green — do not need to retest unless carousel code changes. Only re-verify Escape closes modal. Reproduce: open https://titli-landing.preview.emergentagent.com at 1920x1000, scroll to WhereItGoes, click [data-testid='story-slide-1'] to open [data-testid='location-modal'], press Escape → modal must disappear.",
+  "rca of the issue": "The Escape-key useEffect was never actually added to /app/frontend/src/components/titli/WhereItGoes.jsx. `grep -n 'Escape' WhereItGoes.jsx` returns no matches. Only the existing keydown handler (lines 116-124) handles ArrowLeft/ArrowRight for carousel navigation, with no branch for Escape and no reference to setModalItem. Fix: inside the modal AnimatePresence block or in a separate useEffect keyed on modalItem, add `useEffect(() => { if (!modalItem) return; const onEsc = (e) => { if (e.key === 'Escape') setModalItem(null); }; window.addEventListener('keydown', onEsc); return () => window.removeEventListener('keydown', onEsc); }, [modalItem]);`"
+}
