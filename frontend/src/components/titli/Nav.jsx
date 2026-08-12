@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { TitliButton } from "./TitliButton";
-import { TitliButterfly } from "./ScriptAccent";
 import { NAV } from "@/constants/testIds";
 
 const LINKS = [
@@ -9,13 +8,12 @@ const LINKS = [
   { id: "schools", label: "For Schools", href: "#schools" },
   { id: "students", label: "For Students", href: "#students" },
   { id: "impact", label: "Impact", href: "#impact" },
-  { id: "blogs", label: "About Titli", href: "#taboo" },
 ];
 
 export function Nav({ onRegisterSchool }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 32);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -24,51 +22,77 @@ export function Nav({ onRegisterSchool }) {
   return (
     <motion.header
       data-testid={NAV.container}
-      initial={{ y: -40, opacity: 0 }}
+      initial={{ y: -32, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-      className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-4"
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed z-50 top-0 left-1/2 -translate-x-1/2 flex items-center justify-between overflow-visible"
+      style={{
+        transitionProperty: "top, width, height, border-radius, background-color, box-shadow, backdrop-filter",
+        transitionDuration: "600ms",
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+        top: scrolled ? "16px" : "0px",
+        width: scrolled ? "min(1120px, calc(100vw - 32px))" : "100vw",
+        height: "70px",
+        borderRadius: scrolled ? "100px" : "0px",
+        backgroundColor: scrolled ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,1)",
+        boxShadow: scrolled ? "0 10px 30px rgba(236,90,153,0.10)" : "0 2px 6px rgba(0,0,0,0.04)",
+        backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+        paddingLeft: scrolled ? "32px" : "clamp(24px, 5vw, 64px)",
+        paddingRight: scrolled ? "16px" : "clamp(24px, 5vw, 64px)",
+      }}
     >
-      <div
-        className={`flex items-center gap-2 md:gap-4 rounded-full px-4 md:px-6 py-2 md:py-2.5 transition-all duration-500 ease-titli ${
-          scrolled ? "bg-white/95 backdrop-blur-xl shadow-pill" : "bg-white/85 backdrop-blur-lg shadow-soft"
-        } border border-black/[0.04]`}
+      <a
+        href="#top"
+        data-testid="nav-brand"
+        className="flex items-center gap-3 focus:outline-none shrink-0 transition-opacity hover:opacity-85"
       >
-        <a href="#top" data-testid="nav-brand" className="flex items-center gap-2 pr-2 md:pr-4 group">
-          <TitliButterfly size={26} className="transition-transform duration-500 group-hover:scale-110" />
-          <span className="font-sans font-extrabold text-[15px] tracking-[0.18em] text-[#EC5A99] uppercase hidden sm:inline">
-            Titli Foundation
-          </span>
-        </a>
+        <img
+          src="/titli-logo.png"
+          alt="Titli Foundation"
+          className="transition-all duration-500 ease-titli"
+          style={{ width: scrolled ? "132px" : "160px", height: "auto" }}
+          draggable={false}
+        />
+      </a>
 
-        <nav className="hidden lg:flex items-center gap-1">
-          {LINKS.map((l) => (
-            <a
-              key={l.id}
-              href={l.href}
-              data-testid={NAV.link(l.id)}
-              className="relative px-3.5 py-2 rounded-full text-[13px] font-medium text-black/70 hover:text-[#EC5A99] transition-colors duration-300"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-
-        <TitliButton
-          size="sm"
-          onClick={onRegisterSchool}
-          data-testid={NAV.donate}
-          className="!px-5 !py-2.5"
-        >
-          Register School
-        </TitliButton>
+      <div className="hidden md:flex items-center gap-1 lg:gap-2">
+        {LINKS.map((l) => (
+          <a
+            key={l.id}
+            href={l.href}
+            data-testid={NAV.link(l.id)}
+            className="px-3 lg:px-4 py-2 text-[14px] font-medium text-[#EC5A99] hover:opacity-70 transition-opacity duration-200 whitespace-nowrap"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+          >
+            {l.label}
+          </a>
+        ))}
         <a
           href="/login"
           data-testid="nav-signin"
-          className="hidden md:inline-flex items-center text-[12px] text-black/55 hover:text-[#EC5A99] transition-colors font-medium pr-1"
+          className="px-3 lg:px-4 py-2 text-[13px] font-medium text-black/55 hover:text-[#EC5A99] transition-colors duration-200 whitespace-nowrap"
         >
           Sign in
         </a>
+        <button
+          onClick={onRegisterSchool}
+          data-testid={NAV.donate}
+          className="ml-2 lg:ml-3 px-5 lg:px-6 py-2.5 text-[14px] font-semibold text-white bg-[#EC5A99] rounded-[12px] shadow-sm hover:bg-[#D84C8A] active:opacity-80 transition-all duration-200 whitespace-nowrap"
+          style={{ WebkitTapHighlightColor: "transparent" }}
+        >
+          Register School
+        </button>
+      </div>
+
+      {/* mobile — compact button only */}
+      <div className="flex md:hidden items-center">
+        <button
+          onClick={onRegisterSchool}
+          data-testid={`${NAV.donate}-mobile`}
+          className="px-4 py-2 text-[13px] font-semibold text-white bg-[#EC5A99] rounded-[10px]"
+        >
+          Register
+        </button>
       </div>
     </motion.header>
   );

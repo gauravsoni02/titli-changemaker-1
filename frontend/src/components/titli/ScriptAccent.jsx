@@ -5,17 +5,31 @@ import { motion } from "framer-motion";
 // We render the cup mark inline inside the H1, matching the real site.
 export function CupOval({ className = "", size = 100 }) {
   return (
-    <span className={`relative inline-flex items-center justify-center align-middle ${className}`} style={{ height: size * 0.72, width: size }}>
+    <span
+      className={`relative inline-flex items-center justify-center align-middle ${className}`}
+      style={{ height: size * 0.72, width: size, verticalAlign: "-0.14em" }}
+    >
       <img
         src="/cupCircle.svg"
         alt=""
         aria-hidden
-        style={{ height: size * 0.95, width: size * 1.05, position: "absolute", inset: 0, margin: "auto" }}
+        style={{
+          height: "100%",
+          width: "100%",
+          position: "absolute",
+          inset: 0,
+          objectFit: "contain",
+        }}
         draggable={false}
       />
       <span
-        className="font-script text-[#EC5A99] relative z-10 leading-none"
-        style={{ fontSize: size * 0.5, transform: "rotate(-4deg)" }}
+        className="font-script text-[#EC5A99] relative z-10 leading-none select-none"
+        style={{
+          fontSize: size * 0.54,
+          transform: "rotate(-4deg) translateY(-2%)",
+          letterSpacing: "-0.02em",
+          fontWeight: 400,
+        }}
       >
         cup
       </span>

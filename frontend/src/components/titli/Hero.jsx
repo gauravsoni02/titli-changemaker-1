@@ -28,7 +28,7 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
       id="hero"
       ref={ref}
       data-testid={HERO.section}
-      className="relative min-h-[100vh] pt-[140px] pb-24 overflow-hidden"
+      className="relative min-h-[100vh] pt-[110px] pb-24 overflow-hidden"
       style={{ background: "linear-gradient(180deg, #FEF1F8 0%, #FEF1F8 60%, #FFFBF7 100%)" }}
     >
       <motion.div
@@ -96,25 +96,35 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
             variants={container}
             initial="initial"
             animate="animate"
-            className="mt-6 font-sans font-extrabold tracking-tight leading-[1.02] text-[#111] balance"
-            style={{ fontSize: "clamp(44px, 6.5vw, 88px)" }}
+            className="mt-6 font-sans font-extrabold tracking-tight leading-[1.02] text-[#111]"
+            style={{ fontSize: "clamp(38px, 5.2vw, 72px)" }}
           >
             <span className="block overflow-hidden">
-              <motion.span variants={word} className="inline-block">
+              <motion.span variants={word} className="inline-block whitespace-nowrap">
                 Change begins,
               </motion.span>
             </span>
             <span className="block overflow-hidden">
-              <motion.span variants={word} className="inline-block">
-                one <CupOval size={112} className="mx-1 md:mx-2 relative -top-1" /> at a time.
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden mt-2">
-              <motion.span variants={word} className="inline-block font-semibold text-[#EC5A99]" style={{ fontSize: "0.55em" }}>
-                Now, schools raise for it.
+              <motion.span variants={word} className="inline-flex items-center whitespace-nowrap">
+                one
+                <CupOval
+                  size={118}
+                  className="mx-2 md:mx-3"
+                />
+                at a time.
               </motion.span>
             </span>
           </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
+            className="mt-6 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.24em] font-bold text-[#EC5A99]"
+          >
+            <span className="w-6 h-px bg-[#EC5A99]"/>
+            Now, schools raise for it.
+          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 10 }}
