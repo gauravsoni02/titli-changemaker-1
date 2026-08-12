@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { TitliButton } from "./TitliButton";
 import { NAV } from "@/constants/testIds";
 
 const LINKS = [
@@ -22,12 +21,12 @@ export function Nav({ onRegisterSchool }) {
   return (
     <motion.header
       data-testid={NAV.container}
-      initial={{ y: -32, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed z-50 top-0 left-1/2 -translate-x-1/2 flex items-center justify-between overflow-visible"
+      initial={{ x: "-50%", y: -8, opacity: 0 }}
+      animate={{ x: "-50%", y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+      className="fixed z-50 left-1/2 flex items-center justify-between overflow-visible"
       style={{
-        transitionProperty: "top, width, height, border-radius, background-color, box-shadow, backdrop-filter",
+        transitionProperty: "top, width, height, border-radius, background-color, box-shadow, backdrop-filter, padding-left, padding-right",
         transitionDuration: "600ms",
         transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
         top: scrolled ? "16px" : "0px",
@@ -37,6 +36,7 @@ export function Nav({ onRegisterSchool }) {
         backgroundColor: scrolled ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,1)",
         boxShadow: scrolled ? "0 10px 30px rgba(236,90,153,0.10)" : "0 2px 6px rgba(0,0,0,0.04)",
         backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+        WebkitBackdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
         paddingLeft: scrolled ? "32px" : "clamp(24px, 5vw, 64px)",
         paddingRight: scrolled ? "16px" : "clamp(24px, 5vw, 64px)",
       }}
@@ -84,7 +84,6 @@ export function Nav({ onRegisterSchool }) {
         </button>
       </div>
 
-      {/* mobile — compact button only */}
       <div className="flex md:hidden items-center">
         <button
           onClick={onRegisterSchool}

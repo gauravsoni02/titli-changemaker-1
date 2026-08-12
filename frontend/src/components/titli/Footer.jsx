@@ -115,9 +115,14 @@ export function Footer() {
         <div className="titli-container relative z-10">
           <div className="grid grid-cols-12 gap-8 md:gap-12 pb-16 border-b border-white/20">
             <div className="col-span-12 md:col-span-4">
-              <div className="flex items-center gap-3 mb-6">
-                <TitliButterfly size={38}/>
-                <span className="font-sans font-extrabold text-[20px] tracking-[0.18em] uppercase">Titli Foundation</span>
+              <div className="mb-6">
+                <img
+                  src="/titli-logo.png"
+                  alt="Titli Foundation"
+                  className="brightness-0 invert"
+                  style={{ width: "180px", height: "auto" }}
+                  draggable={false}
+                />
               </div>
               <p className="text-white/85 text-[15px] leading-[1.7] max-w-[320px] font-body">
                 We stand against period poverty across India — with compassion,

@@ -1,0 +1,35 @@
+{
+  "summary": "Frontend-only regression for 3 targeted nav+footer bugs. All three fixes verified precisely: (1) entrance fade+slide animation confirmed via computed style sampling — opacity 0→1 and translateY -8→0 with x=-50% preserved (matrix -960 kept) over ~500ms visible transition; (2) scrolled pill state is perfectly horizontally centered on 1920px viewport (centerDelta = 0px, well within the 2px tolerance) with top=16, width=1120, borderRadius=100px, backdrop-blur(12px), pink box-shadow; (3) reverse scroll returns to full-width bar (top=0, width=1920, radius=0); (4) footer swap complete — footer now contains <img src='.../titli-logo.png'> with filter brightness(0) invert(1) and no butterfly SVG branding logo. Nav logo loads correctly (naturalWidth=304, renders 160px at top and 132px in pill). Regression flows all pass: login with demo credentials -> dashboard with 4 seeded campaign rows, CSV export triggers download 'titli-80g-Titli-Demo-School-20260812.csv', school registration modal opens with password field (data-testid='school-password-input'). All sections (#how, #schools, #students, #impact) render.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "console_warnings": [
+      {"component": "SchoolRegisterModal", "issue": "React hydration warning: <span> cannot be a child of <option>. Appears to be caused by dev-tool JSX instrumentation wrapping option text in a display:contents span. Non-blocking; select still works. Priority: LOW.", "priority": "LOW"}
+    ]
+  },
+  "measurements": {
+    "entrance_animation": {"opacity_at_50ms": 0, "opacity_at_200ms": 0.42, "opacity_at_500ms": 0.998, "opacity_at_1200ms": 1, "y_progression": "-8 -> -4.49 -> -0.008 -> 0", "x_preserved": "matrix -960 (x=-50%) throughout"},
+    "initial_bar": {"top": 0, "width": 1920, "borderRadius": "0px", "bg": "rgb(255,255,255)", "navCenter": 960, "vwCenter": 960},
+    "scrolled_pill": {"top": 16, "width": 1120, "left": 400, "right": 1520, "borderRadius": "100px", "backdropFilter": "blur(12px)", "centerDelta_px": 0},
+    "scrolled_back": {"top": 0, "width": 1920, "borderRadius": "0px"},
+    "footer_logo": {"src_ends_with_titli_logo": true, "filter": "brightness(0) invert(1)", "naturalWidth": 304},
+    "dashboard": {"campaign_rows": 4, "csv_filename": "titli-80g-Titli-Demo-School-20260812.csv"}
+  },
+  "test_report_links": [],
+  "action_items": [
+    "(Optional / LOW) Fix hydration warning in SchoolRegisterModal.jsx select options — likely triggered by JSX instrumentation; consider ensuring option children are plain strings."
+  ],
+  "critical_code_review_comments": [
+    "Nav.jsx: entrance animation implementation is correct — explicit x:'-50%' in both initial and animate prevents framer-motion from clobbering Tailwind centering. Good fix.",
+    "Footer.jsx: switch to <img src='/titli-logo.png' className='brightness-0 invert' /> is clean; the pink footer still contains the string 'Titli Foundation' in legal/copy text (expected)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (frontend-only)", "frontend": "100%"},
+  "test_credentials": "demo-coordinator@school.edu / titliDemo123 (verified working)",
+  "seed_data_creation": "None; used existing seeded demo coordinator with 4 campaigns.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Nav entrance + pill centering + footer logo swap are all verified on 1920x1000. If future changes touch Nav.jsx animate props, re-verify x:'-50%' is preserved in both initial and animate to prevent centering drift. Regression suite for auth/dashboard/CSV export still passes."
+}
