@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { CupOval, ScribbleWord, TitliButterfly } from "./ScriptAccent";
+import { CupOval, ScribbleWord } from "./ScriptAccent";
 import { TitliButton, EyebrowLabel } from "./TitliButton";
 import { HERO } from "@/constants/testIds";
 
@@ -15,7 +15,7 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const bfY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+ 
 
   const container = { initial: {}, animate: { transition: { staggerChildren: 0.08, delayChildren: 0.35 } } };
   const word = {
@@ -31,13 +31,7 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
       className="relative min-h-[100vh] pt-[110px] pb-24 overflow-hidden"
       style={{ background: "linear-gradient(180deg, #FEF1F8 0%, #FEF1F8 60%, #FFFBF7 100%)" }}
     >
-      <motion.div
-        style={{ y: bfY }}
-        className="pointer-events-none absolute top-[18%] left-[10%] opacity-30 hidden lg:block animate-flutter"
-        aria-hidden
-      >
-        <TitliButterfly size={72} />
-      </motion.div>
+      
       <div className="absolute inset-0 grain pointer-events-none" />
 
       <div className="titli-container relative z-10 grid grid-cols-12 gap-8 md:gap-14 items-center">
