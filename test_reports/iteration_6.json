@@ -1,0 +1,33 @@
+{
+  "summary": "Retested ONLY parallax strength on WhereItGoes carousel. The main agent claimed to bump PARALLAX to 0.5 and widen the image to width:200% / left:-50%, but the source file /app/frontend/src/components/titli/WhereItGoes.jsx STILL contains PARALLAX = 0.36, width:'180%', left:'-40%'. The runtime confirms this: per-slide translate delta after one ArrowRight is 5.988% on every non-wrapping slide (identical to iteration_5), which is still just under the >6% acceptance threshold. All other regression spot-checks passed.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "WhereItGoes / [data-parallax-img]",
+        "issue": "PARALLAX constant was NOT updated. File still shows PARALLAX = 0.36, width:'180%', left:'-40%'. Expected PARALLAX = 0.5, width:'200%', left:'-50%'. As a result, per-slide |delta| after ArrowRight is 5.988% (only 1 of 6 slides > 6%, and that one is 30% from the loop wrap). Expected ideal delta = ~8.33%.",
+        "selector": "[data-parallax-img]",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Actually apply the change in /app/frontend/src/components/titli/WhereItGoes.jsx line 44: `const PARALLAX = 0.5;` (currently 0.36)",
+    "Actually apply the image style change on line 208-211: `left: '-50%'` and `width: '200%'` (currently '-40%' / '180%')",
+    "After change, verify math: max |diff|=1 -> tx=±50%; image left -50% width 200% gives 50% coverage per side, so it still fully covers the card at extremes (2px tolerance)."
+  ],
+  "critical_code_review_comments": [
+    "The claim in the review_request that the file was updated to PARALLAX=0.5/200%/-50% is not reflected in the on-disk source. Either the edit was reverted, never saved, or a caching/hot-reload issue prevented persistence. The live bundle served by REACT_APP_BACKEND_URL matches the on-disk 0.36 values (transforms come out to multiples of 6%, not 8.33%).",
+    "tweenParallax uses clamp of ±1.2 with PARALLAX*-100, so max |tx| = 1.2 * PARALLAX * 100 = 43.2% at 0.36 (safe with 40% margin - just barely). If PARALLAX is bumped to 0.5 the clamp should be tightened to ±1.0 or margin widened to 50% (i.e., left:-50%, width:200%) — which is exactly what main agent claimed to do. Note: with clamp ±1.2 and PARALLAX 0.5 max |tx| = 60% which would EXCEED even the 50% margin; recommend also changing clamp to Math.max(-1, Math.min(1, diff)) when applying the bump."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "parallax strength FAIL (5.988% delta, spec >6%); image-cover PASS after 3xArrowRight and 3xArrowLeft (all visible imgs extend past card edges by 95-320px L/R, 0px T/B); no blank imgs during 5xArrowRight+5xArrowLeft; 3 dots present; autoplay was not re-verified (already green in iter_5); modal open+Escape close was previously verified in iter_5 and is unchanged."},
+  "seed_data_creation": "",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Before retesting, verify on disk that /app/frontend/src/components/titli/WhereItGoes.jsx actually contains PARALLAX = 0.5 and width:'200%' / left:'-50%'. In iteration_6 those values were NOT present despite the review claiming they were. Slide test-ids follow pattern `story-slide-{i}` (from STORIES.slide = i => `story-slide-${i}`), NOT `stories-slide-${i}`. To read transforms: `document.querySelectorAll('[data-parallax-img]')` then parse `translate3d(X%, 0, 0)` from `.style.transform`. Raw before/after from this run: BEFORE=[18,12,6,0,-6,-12], AFTER=[-12.01,17.99,11.99,5.99,-0.01,-6.01] — identical shape to iter_5 confirming code is unchanged.",
+  "rca_of_the_issue": "Root cause of the failing parallax-strength assertion: the PARALLAX constant and image sizing in WhereItGoes.jsx were never actually updated on disk. The main agent's description of the change (PARALLAX=0.5, width:200%, left:-50%) does not match the current file content (PARALLAX=0.36, width:180%, left:-40%). Reproduction: `grep -n 'PARALLAX\\|width:\\|left:' /app/frontend/src/components/titli/WhereItGoes.jsx` shows the old values. Runtime confirmation: parsing translate3d X% values before/after a single ArrowRight yields deltas of exactly 6% * 0.998 = 5.988% (which is PARALLAX*100/6 = 0.36*100/6 = 6.0% multiplied by the fraction of scrollProgress traveled). Mitigation: main agent must reapply the edit and confirm the file diff before re-requesting a retest. Also consider tightening the diff clamp from ±1.2 to ±1.0 when PARALLAX=0.5 to keep max |tx| at exactly 50% (matches the 50%-per-side coverage margin)."
+}

@@ -1,0 +1,33 @@
+{
+  "summary": "Frontend-only Playwright verification of WhereItGoes parallax carousel after fix. 6 of 7 required checks PASS. The parallax-strength check per the strict spec (>6% translate3d X delta on ≥3 of 6 slides after one ArrowRight) FAILS: deltas are exactly ~5.99% per single-slide advance (borderline just under 6%). Only the loop-wrap slide (delta ~30%) exceeds 6%. All other regressions/invariants pass: image-cover invariant, no blank slides on keyboard nav (5xLeft/5xRight), no blank slides during 15s autoplay wraparound, modal open on click and close on Escape, autoplay dot advance, keyboard inert while focus is in newsletter input.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "WhereItGoes carousel parallax",
+        "issue": "Parallax delta per single ArrowRight advance is ~5.99% (exactly PARALLAX*100/6slides = 0.36*100/6). Spec requires >6% on ≥3 of 6 slides; only 1 slide (loop-wrap) exceeds threshold. Observed transforms Before ArrowRight: [18, 12, 6, 0, -6, -12]; After: [-12, 18, 12, 6, 0, -6]; per-slide deltas [30.01, 5.99, 5.99, 5.99, 5.99, 5.99]. This also matches the user's complaint that parallax 'barely moves'.",
+        "selector": "[data-parallax-img]",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Increase PARALLAX constant in /app/frontend/src/components/titli/WhereItGoes.jsx from 0.36 so per-slide delta exceeds 6% AND keeps image-cover invariant. Math: image left=-40%, width=180% ⇒ coverage margin on each side = 40% of card_width; translate is % of image (180%), so max |tx| must satisfy |tx|*1.8 ≤ 40 ⇒ max |tx| ≤ 22.2%. With 6 evenly-spaced snaps, max diff during normal nav ≈ 0.5 ⇒ max |tx| = PARALLAX*50. To stay ≤22.2, PARALLAX ≤ ~0.44. Recommend PARALLAX = 0.42–0.44 (delta per slide ≈ 7.0–7.3%). Alternatively bump image width to 200% and left to -50% to give more room and allow PARALLAX = 0.5–0.6 for a visibly stronger drift as the user originally requested."
+  ],
+  "critical_code_review_comments": [
+    "tweenParallax still short-circuits on `isScrollEvent && !slidesInView.includes(slideIndex)` (line 75). While settle/slideFocus/select events now update every slide (which is why blank-flash on keyboard nav is fixed), the scroll-time gate can still starve loop clones of one intermediate frame. It hasn't produced visible blanks in this test run, but consider removing the gate for full safety.",
+    "translate3d in the initial inline style is in px-like 0 values then updated to % — mixing units. Not breaking, but keep consistent for readability.",
+    "The Escape key handler for the modal correctly re-registers on each modalItem change; verified working (previous test's 500ms wait was too short; 1.2s+ confirms modal exits.)",
+    "PARALLAX constant is directly linked to the cover-invariant math via image left/width; encode that relationship in a comment or derive image dims from PARALLAX to prevent future desync."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "85% (6/7 checks pass; parallax strength borderline fail)"},
+  "seed_data_creation": "none",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Only one remaining failure: parallax visible strength. Detailed transforms captured Before ArrowRight = [18,12,6,0,-6,-12], After = [-12,18,12,6,0,-6]. All image-cover, no-blank-flash (keyboard 5xArrowRight+5xArrowLeft), 15s autoplay stability, modal open/Escape/close, keyboard-inert-in-input, and dot-advance-on-autoplay tests passed. Suggested fix in action_items: bump PARALLAX to ~0.44 (safe under cover invariant) or increase image dims (width 200%, left -50%) to enable PARALLAX ~0.6 for a much stronger visible drift.",
+  "rca of the issue": "PARALLAX=0.36 with 6 scroll snaps yields translate delta per single-slide advance = 0.36*100*(1/6) ≈ 6.0%, which is on the boundary of the spec's strict `>6%` check and matches the user's perception that parallax 'barely moves'. The cover invariant (image left=-40%, width=180%) tolerates PARALLAX up to ~0.44 without exposing card edges during normal navigation; going higher requires widening the image or increasing the negative left offset."
+}

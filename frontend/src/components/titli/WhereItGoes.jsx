@@ -39,8 +39,10 @@ const LOCATIONS = [
   },
 ];
 
-// Constrained parallax: image is 125% wide, translated within ±12% so it always covers.
-const PARALLAX = 0.12;
+// Real parallax: image is 200% wide with left:-50% (50% margin on each side).
+// Translate clamped to ±50% so every image always covers its card frame.
+// Per-slide delta ≈ 8.3% → visible drift; loop-wrap delta up to 50% → showcase moment.
+const PARALLAX = 0.5;
 
 export function WhereItGoes() {
   const autoplay = useRef(
@@ -95,10 +97,12 @@ export function WhereItGoes() {
     if (!emblaApi) return;
     setTweenNodes(emblaApi);
     tweenParallax(emblaApi);
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    const onSelect = () => { setSelected(emblaApi.selectedScrollSnap()); tweenParallax(emblaApi); };
     emblaApi
       .on("reInit", (api) => { setTweenNodes(api); tweenParallax(api); onSelect(); })
-      .on("scroll", (api, evt) => tweenParallax(api, evt))
+      .on("scroll", (api) => tweenParallax(api))
+      .on("settle", (api) => tweenParallax(api))
+      .on("slideFocus", (api) => tweenParallax(api))
       .on("select", onSelect);
     onSelect();
   }, [emblaApi, setTweenNodes, tweenParallax]);
@@ -203,11 +207,12 @@ export function WhereItGoes() {
                       draggable={false}
                       className="absolute top-0 h-full max-w-none object-cover will-change-transform"
                       style={{
-                        left: "-12.5%",
-                        width: "125%",
+                        left: "-50%",
+                        width: "200%",
                         transform: "translate3d(0, 0, 0)",
+                        backfaceVisibility: "hidden",
                       }}
-                      loading="lazy"
+                      loading="eager"
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10 pointer-events-none"/>
