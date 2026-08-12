@@ -70,8 +70,15 @@ export function Nav({ onRegisterSchool }) {
         <a
           href="/login"
           data-testid="nav-signin"
-          className="px-3 lg:px-4 py-2 text-[13px] font-medium text-black/55 hover:text-[#EC5A99] transition-colors duration-200 whitespace-nowrap"
+          className="inline-flex items-center gap-1.5 px-3 lg:px-4 py-2 text-[13px] font-medium text-black/55 hover:text-[#EC5A99] transition-colors duration-200 whitespace-nowrap group"
         >
+          <svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden className="transition-transform duration-500 ease-titli group-hover:scale-110 group-hover:rotate-6">
+            <path d="M24 24 C 16 12, 6 10, 4 20 C 2 28, 12 32, 24 24 Z" fill="currentColor" opacity="0.7"/>
+            <path d="M24 24 C 32 12, 42 10, 44 20 C 46 28, 36 32, 24 24 Z" fill="currentColor" opacity="0.7"/>
+            <path d="M24 24 C 18 30, 10 34, 10 40 C 10 44, 20 42, 24 26 Z" fill="currentColor" opacity="0.55"/>
+            <path d="M24 24 C 30 30, 38 34, 38 40 C 38 44, 28 42, 24 26 Z" fill="currentColor" opacity="0.55"/>
+            <ellipse cx="24" cy="24" rx="1.2" ry="9" fill="currentColor"/>
+          </svg>
           Sign in
         </a>
         <button

@@ -96,21 +96,27 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
             variants={container}
             initial="initial"
             animate="animate"
-            className="mt-6 font-sans font-extrabold tracking-tight leading-[1.02] text-[#111]"
-            style={{ fontSize: "clamp(38px, 5.2vw, 72px)" }}
+            className="mt-6 font-sans font-extrabold tracking-tight leading-[0.98] text-[#111]"
+            style={{ fontSize: "clamp(44px, 6vw, 92px)" }}
           >
-            <span className="block overflow-hidden">
-              <motion.span variants={word} className="inline-block whitespace-nowrap">
-                Change begins,
+            <span className="block overflow-hidden" style={{ paddingBottom: "0.14em", marginBottom: "-0.12em" }}>
+              <motion.span variants={word} className="block whitespace-nowrap">
+                Change
               </motion.span>
             </span>
-            <span className="block overflow-hidden">
+            <span className="block overflow-hidden" style={{ paddingBottom: "0.14em", marginBottom: "-0.12em" }}>
+              <motion.span variants={word} className="block whitespace-nowrap">
+                begins,
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden" style={{ paddingBottom: "0.14em", marginBottom: "-0.12em" }}>
               <motion.span variants={word} className="inline-flex items-center whitespace-nowrap">
                 one
-                <CupOval
-                  size={118}
-                  className="mx-2 md:mx-3"
-                />
+                <CupOval size={132} className="mx-2 md:mx-3" />
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden" style={{ paddingBottom: "0.14em", marginBottom: "-0.12em" }}>
+              <motion.span variants={word} className="block whitespace-nowrap">
                 at a time.
               </motion.span>
             </span>

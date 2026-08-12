@@ -99,7 +99,9 @@ export function SchoolRegisterModal({ open, onClose }) {
                     </Field>
                     <Field label="School size">
                       <select value={f.size} onChange={set("size")} data-testid="school-size-input" className={inputCls}>
-                        {SCHOOL_SIZES.map((s) => <option key={s} value={s}>{s} students</option>)}
+                        {SCHOOL_SIZES.map((s) => (
+                          <option key={s} value={s}>{`${s} students`}</option>
+                        ))}
                       </select>
                     </Field>
                   </div>

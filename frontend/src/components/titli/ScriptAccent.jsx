@@ -9,6 +9,7 @@ export function CupOval({ className = "", size = 100 }) {
       className={`relative inline-flex items-center justify-center align-middle ${className}`}
       style={{ height: size * 0.72, width: size, verticalAlign: "-0.14em" }}
     >
+      {/* Pink filled oval (bg) */}
       <img
         src="/cupCircle.svg"
         alt=""
@@ -19,9 +20,35 @@ export function CupOval({ className = "", size = 100 }) {
           position: "absolute",
           inset: 0,
           objectFit: "contain",
+          opacity: 0.55,
         }}
         draggable={false}
       />
+      {/* Hand-drawn pen-stroke oval that draws itself in */}
+      <motion.svg
+        viewBox="0 0 220 130"
+        preserveAspectRatio="none"
+        aria-hidden
+        style={{ position: "absolute", inset: 0, height: "100%", width: "100%", overflow: "visible" }}
+      >
+        <motion.path
+          d="M 30 65
+             C 30 22, 70 15, 115 15
+             C 165 15, 205 28, 200 65
+             C 195 100, 145 115, 100 112
+             C 55 109, 25 100, 32 55
+             C 34 42, 45 30, 60 25"
+          fill="none"
+          stroke="#EC5A99"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1], delay: 1.4 }}
+        />
+      </motion.svg>
+      {/* the word */}
       <span
         className="font-script text-[#EC5A99] relative z-10 leading-none select-none"
         style={{
