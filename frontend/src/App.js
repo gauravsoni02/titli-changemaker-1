@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Lenis from "lenis";
 import "@/App.css";
 
@@ -16,7 +16,7 @@ import { FinalCTA } from "@/components/titli/FinalCTA";
 import { Footer } from "@/components/titli/Footer";
 import { SchoolRegisterModal } from "@/components/titli/SchoolRegisterModal";
 import { StudentCampaignModal } from "@/components/titli/StudentCampaignModal";
-import { AuthProvider } from "@/auth/AuthContext";
+import { AuthProvider, useAuth } from "@/auth/AuthContext";
 import LoginPage from "@/pages/LoginPage";
 import DashboardPage from "@/pages/DashboardPage";
 
@@ -37,21 +37,32 @@ function useLenis() {
 function Landing() {
   const [schoolOpen, setSchoolOpen] = useState(false);
   const [studentOpen, setStudentOpen] = useState(false);
+  const { coordinator } = useAuth();
+  const navigate = useNavigate();
   useLenis();
+
+  const isSignedIn = coordinator && typeof coordinator === "object";
+  const handleRegisterSchool = () => {
+    if (isSignedIn) {
+      navigate("/dashboard");
+      return;
+    }
+    setSchoolOpen(true);
+  };
 
   return (
     <div className="App">
       <div id="top"/>
-      <Nav onRegisterSchool={() => setSchoolOpen(true)}/>
-      <Hero onRegisterSchool={() => setSchoolOpen(true)} onStartFundraiser={() => setStudentOpen(true)}/>
+      <Nav onRegisterSchool={handleRegisterSchool}/>
+      <Hero onRegisterSchool={handleRegisterSchool} onStartFundraiser={() => setStudentOpen(true)}/>
       <HowItWorks/>
-      <ForSchools onRegister={() => setSchoolOpen(true)}/>
+      <ForSchools onRegister={handleRegisterSchool}/>
       <ForStudents onStart={() => setStudentOpen(true)}/>
       <Impact/>
       <WhereItGoes/>
       <Partners/>
       <BreakTheTaboo/>
-      <FinalCTA onRegisterSchool={() => setSchoolOpen(true)} onStartFundraiser={() => setStudentOpen(true)}/>
+      <FinalCTA onRegisterSchool={handleRegisterSchool} onStartFundraiser={() => setStudentOpen(true)}/>
       <Footer/>
       <SchoolRegisterModal open={schoolOpen} onClose={() => setSchoolOpen(false)}/>
       <StudentCampaignModal open={studentOpen} onClose={() => setStudentOpen(false)}/>

@@ -5,9 +5,14 @@ import { motion } from "framer-motion";
 // We render the cup mark inline inside the H1, matching the real site.
 export function CupOval({ className = "", size = 100 }) {
   return (
-    <span
+    <motion.span
       className={`relative inline-flex items-center justify-center align-middle ${className}`}
-      style={{ height: size * 0.72, width: size, verticalAlign: "-0.14em" }}
+      style={{ height: size * 0.72, width: size, verticalAlign: "-0.14em", transformOrigin: "center" }}
+      whileHover={{
+        rotate: [0, -6, 5, -3, 2, 0],
+        transition: { duration: 0.7, ease: "easeInOut" },
+      }}
+      data-testid="cup-oval"
     >
       {/* Pink filled oval (bg) */}
       <img
@@ -60,7 +65,7 @@ export function CupOval({ className = "", size = 100 }) {
       >
         cup
       </span>
-    </span>
+    </motion.span>
   );
 }
 
@@ -83,6 +88,7 @@ export function TitliButterfly({ size = 34, className = "" }) {
 
 // Handwritten script accent (Shadows Into Light) inside a pink hand-drawn oval —
 // same visual language as the cupCircle used on titlifoundation.in
+// Uses the SAME 1.35s pen-stroke choreography as CupOval for unified motion language.
 export function ScribbleWord({ children, rotate = -3, size = 1 }) {
   return (
     <span className="relative inline-block align-baseline mx-1" style={{ transform: `rotate(${rotate}deg)` }}>
@@ -91,17 +97,19 @@ export function ScribbleWord({ children, rotate = -3, size = 1 }) {
         className="absolute inset-0 -inset-x-4 -inset-y-3 w-[calc(100%+32px)] h-[calc(100%+24px)] pointer-events-none"
         preserveAspectRatio="none"
         fill="none"
+        style={{ overflow: "visible" }}
       >
         <motion.path
-          d="M 15 55 C 15 20, 60 12, 110 15 C 170 18, 210 30, 205 55 C 200 78, 140 82, 90 78 C 40 74, 12 68, 18 45"
+          d="M 20 55 C 20 20, 65 12, 115 15 C 170 18, 210 30, 205 55 C 200 78, 140 82, 90 78 C 40 74, 12 68, 22 45"
           stroke="#EC5A99"
-          strokeWidth="3.4"
+          strokeWidth="4"
           strokeLinecap="round"
+          strokeLinejoin="round"
           fill="none"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+          initial={{ pathLength: 0, opacity: 0 }}
+          whileInView={{ pathLength: 1, opacity: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         />
       </motion.svg>
       <span className="font-script text-[#EC5A99] relative" style={{ fontSize: `${size}em` }}>
