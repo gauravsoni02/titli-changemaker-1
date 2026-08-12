@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { TitliButton } from "@/components/titli/TitliButton";
 import { TitliButterfly } from "@/components/titli/ScriptAccent";
+import { ButterflyLoader } from "@/components/titli/ButterflyLoader";
 import { useAuth, formatApiErrorDetail } from "@/auth/AuthContext";
 
 export default function LoginPage() {
@@ -90,7 +91,14 @@ export default function LoginPage() {
               className="w-full justify-center"
               glow
             >
-              {loading ? "Signing in…" : "Sign in →"}
+              {loading ? (
+                <span className="inline-flex items-center gap-2">
+                  <ButterflyLoader size={18} tone="white"/>
+                  Signing in…
+                </span>
+              ) : (
+                "Sign in →"
+              )}
             </TitliButton>
           </form>
 

@@ -87,12 +87,18 @@ export function Footer() {
                       exit={{ scale: 0, opacity: 0 }}
                       data-testid={FOOTER.newsletterSubmit}
                       disabled={state === "loading"}
-                      className="absolute right-2 w-11 h-11 rounded-full bg-[#EC5A99] hover:bg-[#D84C8A] flex items-center justify-center text-white shadow-pill transition-all"
+                      className="absolute right-2 w-11 h-11 rounded-full bg-[#EC5A99] hover:bg-[#D84C8A] flex items-center justify-center text-white shadow-pill transition-all disabled:opacity-80"
                       type="submit"
                       aria-label="Subscribe"
                     >
                       {state === "loading" ? (
-                        <span className="w-4 h-4 rounded-full border-2 border-white/70 border-t-transparent animate-spin"/>
+                        <img
+                          src="/titli-butterfly.png"
+                          alt=""
+                          aria-hidden
+                          className="w-5 h-5 animate-flutter"
+                          style={{ filter: "brightness(0) invert(1)" }}
+                        />
                       ) : "→"}
                     </motion.button>
                   )}

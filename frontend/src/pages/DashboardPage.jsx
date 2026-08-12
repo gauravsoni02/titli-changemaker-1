@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { TitliButton, Chip } from "@/components/titli/TitliButton";
 import { TitliButterfly } from "@/components/titli/ScriptAccent";
+import { ButterflyLoader } from "@/components/titli/ButterflyLoader";
 import { useAuth } from "@/auth/AuthContext";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -73,7 +74,7 @@ export default function DashboardPage() {
   if (!coordinator || coordinator === null) {
     return (
       <div className="min-h-screen bg-[#FEF1F8] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[#EC5A99] border-t-transparent animate-spin"/>
+        <ButterflyLoader size={64} label="Loading your dashboard"/>
       </div>
     );
   }
@@ -124,7 +125,14 @@ export default function DashboardPage() {
               data-testid="export-80g-btn"
               glow
             >
-              {exporting ? "Preparing…" : "Export 80G receipts (CSV) ↓"}
+              {exporting ? (
+                <span className="inline-flex items-center gap-2">
+                  <ButterflyLoader size={18} tone="white"/>
+                  Preparing…
+                </span>
+              ) : (
+                "Export 80G receipts (CSV) ↓"
+              )}
             </TitliButton>
           </div>
         </div>
