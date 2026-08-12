@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { EyebrowLabel } from "./TitliButton";
-import { ScribbleWord, TitliButterfly } from "./ScriptAccent";
+import { ScribbleWord } from "./ScriptAccent";
 import { PRIVACY } from "@/constants/testIds";
 
 export function BreakTheTaboo() {
@@ -18,7 +18,12 @@ export function BreakTheTaboo() {
           transition={{ duration: 0.7 }}
           className="flex justify-center mb-8 animate-flutter"
         >
-          <TitliButterfly size={56}/>
+          <img
+            src="/titli-butterfly.png"
+            alt="Titli Foundation butterfly"
+            className="w-14 h-14 md:w-16 md:h-16 object-contain"
+            draggable={false}
+          />
         </motion.div>
 
         <EyebrowLabel className="justify-center">Titli · The manifesto</EyebrowLabel>
