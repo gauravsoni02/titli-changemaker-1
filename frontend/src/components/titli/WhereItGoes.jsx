@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { STORIES } from "@/constants/testIds";
@@ -26,25 +26,75 @@ const LOCATIONS = [
   },
 ];
 
-export function WhereItGoes() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start", dragFree: true, containScroll: "trimSnaps" });
-  const [progress, setProgress] = useState(0);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
+const PARALLAX_AMOUNT = 0.28;
+const TWEEN_FACTOR = 1.2;
 
-  const onScroll = useCallback(() => {
-    if (!emblaApi) return;
-    setProgress(Math.max(0, Math.min(1, emblaApi.scrollProgress())));
-    setCanPrev(emblaApi.canScrollPrev());
-    setCanNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
+export function WhereItGoes() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+    dragFree: false,
+    containScroll: false,
+  });
+  const tweenNodesRef = useRef([]);
+  const tweenFactorRef = useRef(0);
+
+  const setTweenNodes = useCallback((api) => {
+    tweenNodesRef.current = api.slideNodes().map((slideNode) => {
+      return slideNode.querySelector("[data-parallax-img]");
+    });
+  }, []);
+
+  const setTweenFactor = useCallback((api) => {
+    tweenFactorRef.current = TWEEN_FACTOR * api.scrollSnapList().length;
+  }, []);
+
+  const tweenParallax = useCallback((api, eventName) => {
+    const engine = api.internalEngine();
+    const scrollProgress = api.scrollProgress();
+    const slidesInView = api.slidesInView();
+    const isScrollEvent = eventName === "scroll";
+
+    api.scrollSnapList().forEach((scrollSnap, snapIndex) => {
+      let diffToTarget = scrollSnap - scrollProgress;
+      const slidesInSnap = engine.slideRegistry[snapIndex];
+
+      slidesInSnap.forEach((slideIndex) => {
+        if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
+
+        if (engine.options.loop) {
+          engine.slideLooper.loopPoints.forEach((loopItem) => {
+            const target = loopItem.target();
+            if (slideIndex === loopItem.index && target !== 0) {
+              const sign = Math.sign(target);
+              if (sign === -1) diffToTarget = scrollSnap - (1 + scrollProgress);
+              if (sign === 1) diffToTarget = scrollSnap + (1 - scrollProgress);
+            }
+          });
+        }
+
+        const translate = diffToTarget * (-1 * PARALLAX_AMOUNT) * tweenFactorRef.current * 100;
+        const tweenNode = tweenNodesRef.current[slideIndex];
+        if (tweenNode) {
+          tweenNode.style.transform = `translate3d(${translate}%, 0, 0)`;
+        }
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (!emblaApi) return;
-    onScroll();
-    emblaApi.on("scroll", onScroll);
-    emblaApi.on("reInit", onScroll);
-  }, [emblaApi, onScroll]);
+    setTweenNodes(emblaApi);
+    setTweenFactor(emblaApi);
+    tweenParallax(emblaApi);
+    emblaApi
+      .on("reInit", (api) => { setTweenNodes(api); setTweenFactor(api); tweenParallax(api); })
+      .on("scroll", (api, evt) => tweenParallax(api, evt))
+      .on("slideFocus", tweenParallax);
+  }, [emblaApi, setTweenNodes, setTweenFactor, tweenParallax]);
+
+  // Slides — duplicated so the loop feels populated (3 → 6)
+  const slides = [...LOCATIONS, ...LOCATIONS];
 
   return (
     <section id="where" data-testid={STORIES.section} className="relative py-32 md:py-40 bg-[#FEF1F8] overflow-hidden">
@@ -65,56 +115,68 @@ export function WhereItGoes() {
             <button
               data-testid={STORIES.prev}
               onClick={() => emblaApi?.scrollPrev()}
-              disabled={!canPrev}
-              className="w-12 h-12 rounded-full border border-[#EC5A99]/30 bg-white flex items-center justify-center transition-all hover:border-[#EC5A99] hover:text-[#EC5A99] disabled:opacity-30 disabled:pointer-events-none"
+              className="w-12 h-12 rounded-full border border-[#EC5A99]/30 bg-white flex items-center justify-center transition-all hover:border-[#EC5A99] hover:text-[#EC5A99] hover:scale-105"
               aria-label="Previous location"
             >←</button>
             <button
               data-testid={STORIES.next}
               onClick={() => emblaApi?.scrollNext()}
-              disabled={!canNext}
-              className="w-12 h-12 rounded-full border border-[#EC5A99]/30 bg-white flex items-center justify-center transition-all hover:border-[#EC5A99] hover:text-[#EC5A99] disabled:opacity-30 disabled:pointer-events-none"
+              className="w-12 h-12 rounded-full border border-[#EC5A99]/30 bg-white flex items-center justify-center transition-all hover:border-[#EC5A99] hover:text-[#EC5A99] hover:scale-105"
               aria-label="Next location"
             >→</button>
           </div>
         </div>
       </div>
 
-      <div className="pl-6 md:pl-12 xl:pl-[calc((100vw-1440px)/2+96px)]" ref={emblaRef}>
-        <div className="embla__container gap-6 md:gap-8">
-          {LOCATIONS.map((s, i) => (
-            <motion.article
-              key={i}
-              data-testid={STORIES.slide(i)}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="embla__slide relative shrink-0 w-[85vw] md:w-[58vw] lg:w-[520px] aspect-[3/4] rounded-[32px] overflow-hidden shadow-lift group"
-            >
-              <img src={s.img} alt={s.location} className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10"/>
-              <div className="absolute top-6 left-6 right-6 flex items-center justify-between text-white">
-                <div className="text-[11px] uppercase tracking-[0.24em] font-semibold opacity-90">{s.tag}</div>
-                <div className="rounded-full bg-white/95 px-3 py-1 text-[11px] uppercase tracking-widest text-[#EC5A99] font-bold">Live</div>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
-                <h3 className="font-sans font-extrabold text-[26px] md:text-[34px] leading-[1.05] tracking-tight balance">
-                  {s.location}
-                </h3>
-                <p className="mt-3 text-[14px] md:text-[15px] text-white/85 leading-[1.6] max-w-[440px] font-body">
-                  {s.body}
-                </p>
-              </div>
-            </motion.article>
-          ))}
-          <div className="shrink-0 w-12 md:w-24" />
+      <div className="relative">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="embla__container touch-pan-y">
+            {slides.map((s, i) => (
+              <motion.article
+                key={i}
+                data-testid={STORIES.slide(i)}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: (i % 3) * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                className="embla__slide relative shrink-0 mx-3 md:mx-4 w-[85vw] md:w-[52vw] lg:w-[560px] aspect-[3/4] rounded-[32px] overflow-hidden shadow-lift group cursor-grab active:cursor-grabbing"
+              >
+                <div className="absolute inset-0 overflow-hidden">
+                  <img
+                    data-parallax-img
+                    src={s.img}
+                    alt={s.location}
+                    draggable={false}
+                    className="absolute top-0 left-0 h-full w-[140%] max-w-none object-cover will-change-transform"
+                    style={{ transform: "translate3d(0, 0, 0)" }}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10 pointer-events-none"/>
+                <div className="absolute top-6 left-6 right-6 flex items-center justify-between text-white">
+                  <div className="text-[11px] uppercase tracking-[0.24em] font-semibold opacity-90">{s.tag}</div>
+                  <div className="rounded-full bg-white/95 px-3 py-1 text-[11px] uppercase tracking-widest text-[#EC5A99] font-bold">Live</div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
+                  <h3 className="font-sans font-extrabold text-[26px] md:text-[34px] leading-[1.05] tracking-tight balance">
+                    {s.location}
+                  </h3>
+                  <p className="mt-3 text-[14px] md:text-[15px] text-white/85 leading-[1.6] max-w-[440px] font-body">
+                    {s.body}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="titli-container mt-10">
-        <div className="h-[2px] w-full bg-black/10 rounded-full overflow-hidden max-w-[280px]">
-          <motion.div className="h-full bg-[#EC5A99]" style={{ width: `${progress * 100}%` }}/>
+        {/* subtle infinite hint */}
+        <div className="mt-10 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.28em] text-black/45 font-semibold">
+          <span>Drag or swipe</span>
+          <span className="w-1 h-1 rounded-full bg-black/30"/>
+          <span className="text-[#EC5A99]">Infinite loop</span>
+          <span className="w-1 h-1 rounded-full bg-black/30"/>
+          <span>{LOCATIONS.length} live locations</span>
         </div>
       </div>
     </section>
