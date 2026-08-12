@@ -1,0 +1,23 @@
+{
+  "summary": "Verified WhereItGoes carousel bug fix (motion.article -> plain <article>). Comprehensive regression pass on 1920x1000. No blank-slide gaps during 5x ArrowRight + 5x ArrowLeft navigation, and during 12s autoplay idle (opacity===1 for all 6 loop-clone slides in every capture). Parallax strength holds (6/6 slides show |delta| > 6% after one advance, exceeding the >=3/6 threshold). Image-cover regression passes (0 issues). Regression spot-checks: modal opens on slide click, Escape closes modal, 3 pagination dots present, keyboard is inert when focus is inside newsletter INPUT.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "WhereItGoes.jsx (334 lines) is approaching the 700-line advisory limit but still comfortably under. No refactor needed.",
+    "Parallax delta for the wrap slide is ~41.7% (large jump) vs ~8.3% for adjacent slides — this is intended showcase behavior per PARALLAX=0.5 and clamped ±1.2; keep as-is."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100%"},
+  "test_credentials": "n/a",
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Bug fix verified. Test flow: load ?v={ts}, scrollIntoView #where, then query all [data-testid^='story-slide-'] and assert getComputedStyle(s).opacity === 1 after each ArrowRight/ArrowLeft press and every 2s during 12s autoplay idle. Parallax read via img.style.transform translate3d X%. Modal Escape works — the earlier apparent failure in the combined run was caused by clicking a non-visible loop-clone slide (slide-0 offscreen at startIndex=3); using [data-testid='story-slide-3'] (centered slide) reproduced Escape close successfully.",
+  "rca of the issue": "Original bug: motion.article had initial={opacity:0} + whileInView which uses IntersectionObserver on the browser viewport. Embla loop clones sit in DOM but may not be considered intersecting the viewport by the observer (they're positioned via transforms inside the overflow container), so cloned slides stayed at opacity:0 and rendered as blank gaps beside 'Kanpur' and 'Pondicherry'. Fix (verified): replaced motion.article with plain <article>, removing the initial:0 state entirely. Slides now render at opacity 1 unconditionally."
+}

@@ -186,17 +186,13 @@ export function WhereItGoes() {
             {slides.map((s, i) => {
               const realIdx = i % LOCATIONS.length;
               return (
-                <motion.article
+                <article
                   key={i}
                   data-testid={STORIES.slide(i)}
                   role="button"
                   tabIndex={0}
                   onClick={() => setModalItem(s)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setModalItem(s); } }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.7, delay: realIdx * 0.05, ease: [0.22, 1, 0.36, 1] }}
                   className="embla__slide relative shrink-0 mx-3 md:mx-4 w-[85vw] md:w-[52vw] lg:w-[520px] aspect-[3/4] rounded-[32px] overflow-hidden shadow-lift group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC5A99] focus-visible:ring-offset-4"
                 >
                   <div className="absolute inset-0 overflow-hidden">
@@ -232,7 +228,7 @@ export function WhereItGoes() {
                       <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                     </div>
                   </div>
-                </motion.article>
+                </article>
               );
             })}
           </div>
