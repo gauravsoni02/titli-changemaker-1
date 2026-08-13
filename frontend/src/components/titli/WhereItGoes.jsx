@@ -256,13 +256,7 @@ export function WhereItGoes() {
           })}
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.28em] text-black/45 font-semibold">
-          <span>Drag · swipe · ← →</span>
-          <span className="w-1 h-1 rounded-full bg-black/30"/>
-          <span className="text-[#EC5A99]">Auto-drift</span>
-          <span className="w-1 h-1 rounded-full bg-black/30"/>
-          <span>{LOCATIONS.length} live locations</span>
-        </div>
+    
       </div>
 
       {/* Field report modal */}
