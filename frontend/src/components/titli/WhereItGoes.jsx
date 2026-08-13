@@ -214,7 +214,7 @@ export function WhereItGoes() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10 pointer-events-none"/>
                   <div className="absolute top-6 left-6 right-6 flex items-center justify-between text-white">
                     <div className="text-[11px] uppercase tracking-[0.24em] font-semibold opacity-90">{s.tag}</div>
-                    <div className="rounded-full bg-white/95 px-3 py-1 text-[11px] uppercase tracking-widest text-[#EC5A99] font-bold">Live</div>
+                   
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
                     <h3 className="font-sans font-extrabold text-[26px] md:text-[32px] leading-[1.05] tracking-tight balance">

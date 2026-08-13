@@ -59,9 +59,7 @@ export function Impact() {
                   />
                 </div>
                 <div className="col-span-3 p-8 md:p-10">
-                  <div className="text-[11px] uppercase tracking-[0.24em] text-[#EC5A99] font-semibold mb-3">
-                    0{i + 1} · verified
-                  </div>
+                 
                   <div className="font-sans font-extrabold text-[54px] md:text-[80px] leading-[0.9] tracking-tight text-[#111]">
                     <CountUp end={s.value} duration={2.6} separator="," enableScrollSpy scrollSpyOnce />
                     <span className="text-[#EC5A99]">{s.suffix}</span>
