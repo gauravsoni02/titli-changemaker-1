@@ -32,12 +32,7 @@ export function ForStudents({ onStart }) {
                 background: "linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)"
               }}/>
               <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
-                <div className="text-white/90 text-[12px] uppercase tracking-[0.24em] font-semibold">
-                  Class 11-B · Delhi
-                </div>
-                <div className="rounded-full bg-white/95 backdrop-blur px-3 py-1.5 text-[12px] font-bold text-[#EC5A99]">
-                  ₹28,400 raised
-                </div>
+            
               </div>
             </motion.div>
           </div>
