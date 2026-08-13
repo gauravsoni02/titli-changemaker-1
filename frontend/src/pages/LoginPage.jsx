@@ -33,10 +33,16 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#FEF1F8] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-[480px]">
-        <Link to="/" className="inline-flex items-center gap-2 mb-8 group">
-          <TitliButterfly size={26} className="transition-transform group-hover:scale-110"/>
-          <span className="font-sans font-extrabold text-[14px] tracking-[0.18em] text-[#EC5A99] uppercase">Titli Foundation</span>
-        </Link>
+  <Link
+  to="/"
+  className="inline-flex items-center gap-2 mb-8  mt-4 group"
+>
+  <img
+    src="/titli-logo.png"
+    alt="Titli Foundation"
+    className="w-[220px] h-auto transition-transform group-hover:scale-[1.02]"
+  />
+</Link>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -44,13 +50,11 @@ export default function LoginPage() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="bg-[#FFFBF7] rounded-[32px] p-8 md:p-10 shadow-lift border border-[#FFC5DE]/40"
         >
-          <div className="text-[11px] uppercase tracking-[0.28em] text-[#EC5A99] font-bold">Coordinator login</div>
+          
           <h1 className="mt-3 font-sans font-extrabold text-[32px] leading-[1.05] tracking-tight text-[#111]">
-            Welcome back.
+            Welcome back !
           </h1>
-          <p className="mt-2 text-[14px] text-[#4A4A4A] font-body">
-            Access your school&apos;s dashboard and 80G exports.
-          </p>
+         
 
           <form onSubmit={submit} className="mt-7 space-y-4">
             <label className="block">
