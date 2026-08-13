@@ -41,7 +41,7 @@ export function ForSchools({ onRegister }) {
             <img src={IMG} alt="Community workshop" className="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-[900ms] group-hover:scale-105"/>
             <div className="absolute inset-0 bg-gradient-to-tr from-black/85 via-black/45 to-transparent" />
             <div className="relative p-8 md:p-12 flex flex-col justify-end h-full min-h-[440px]">
-              <Chip className="!bg-white/10 !text-white !border-white/25 mb-4">A₁ · Dashboard</Chip>
+          
               <h3 className="font-sans font-extrabold text-[28px] md:text-[40px] leading-[1.1] balance max-w-[440px]">
                 A live dashboard for every coordinator.
               </h3>
@@ -55,7 +55,7 @@ export function ForSchools({ onRegister }) {
           <Card index={1} className="col-span-12 md:col-span-5 min-h-[440px] bg-white">
             <div className="p-8 md:p-10 h-full flex flex-col justify-between">
               <div>
-                <Chip className="mb-5">A₂ · Zero cost</Chip>
+                
                 <h3 className="font-sans font-extrabold text-[28px] md:text-[36px] leading-[1.05] text-[#111]">
                   Free to run.
                   <br />
@@ -76,7 +76,7 @@ export function ForSchools({ onRegister }) {
           <Card index={2} className="col-span-12 md:col-span-4 min-h-[320px] bg-white">
             <div className="p-8 md:p-10 h-full flex flex-col justify-between">
               <div>
-                <Chip className="mb-5">A₃ · Tax</Chip>
+             
                 <h3 className="font-sans font-extrabold text-[24px] md:text-[28px] leading-[1.1] text-[#111]">
                   80G receipts.
                   <br/>
@@ -92,7 +92,7 @@ export function ForSchools({ onRegister }) {
           <Card index={3} className="col-span-12 md:col-span-4 min-h-[320px] bg-[#FFFBF7]">
             <div className="p-8 md:p-10 h-full flex flex-col justify-between">
               <div>
-                <Chip className="mb-5">A₄ · Support</Chip>
+          
                 <h3 className="font-sans font-extrabold text-[24px] md:text-[28px] leading-[1.1] text-[#111]">
                   A named coordinator on WhatsApp.
                 </h3>
@@ -109,7 +109,7 @@ export function ForSchools({ onRegister }) {
                 <img src={IMG2} alt="Titli workshop" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] group-hover:scale-105"/>
               </div>
               <div className="p-6 flex flex-col justify-between">
-                <Chip>A₅ · Field report</Chip>
+               
                 <div>
                   <h3 className="font-sans font-extrabold text-[20px] leading-[1.15] text-[#111]">
                     A photo & signature from every girl you helped.
