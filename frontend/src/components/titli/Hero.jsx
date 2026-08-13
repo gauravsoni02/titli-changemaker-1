@@ -53,9 +53,7 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
             <div className="absolute inset-0 pointer-events-none" style={{
               background: "linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%)"
             }} />
-            <div className="absolute top-5 left-5 rounded-full bg-white/90 backdrop-blur px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] text-[#EC5A99] uppercase">
-              In partnership with Titli
-            </div>
+            
           </motion.div>
 
           {/* Floating stat pill under image */}
