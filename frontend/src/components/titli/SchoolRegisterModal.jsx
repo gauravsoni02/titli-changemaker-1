@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { TitliButton } from "./TitliButton";
 import { TitliButterfly } from "./ScriptAccent";
 import { useAuth } from "@/auth/AuthContext";
+import {ButterflyLogo} from "./ButterflyLogo";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -79,7 +80,7 @@ export function SchoolRegisterModal({ open, onClose }) {
             {state !== "success" ? (
               <>
                 <div className="flex items-center gap-3 mb-4">
-                  <TitliButterfly size={30}/>
+                   <ButterflyLogo size={18} tone="pink"/>
                   <div className="text-[11px] uppercase tracking-[0.28em] text-[#EC5A99] font-bold">School registration</div>
                 </div>
                 <h3 className="font-sans font-extrabold text-[30px] leading-[1.1] tracking-tight text-[#111]">
