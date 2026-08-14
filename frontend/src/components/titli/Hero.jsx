@@ -155,18 +155,6 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
             </TitliButton>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 1.9 }}
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] uppercase tracking-[0.22em] text-black/45 font-semibold"
-          >
-            <span>80G Certified</span>
-            <span className="w-1 h-1 rounded-full bg-black/25" />
-            <span>Zero cost to schools</span>
-            <span className="w-1 h-1 rounded-full bg-black/25" />
-            <span>#BreakTheTaboo</span>
-          </motion.div>
         </div>
       </div>
 

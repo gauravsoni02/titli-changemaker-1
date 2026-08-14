@@ -54,19 +54,6 @@ export function BreakTheTaboo() {
           and positively impact lives everywhere.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[11px] uppercase tracking-[0.28em] text-black/50 font-semibold"
-        >
-          <span>80G · 12A</span>
-          <span className="w-1 h-1 rounded-full bg-black/25"/>
-          <span>Since 2020</span>
-          <span className="w-1 h-1 rounded-full bg-black/25"/>
-          <span>Faizabad, UP · India</span>
-        </motion.div>
       </div>
     </section>
   );
