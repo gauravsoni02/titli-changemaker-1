@@ -77,13 +77,6 @@ export function FinalCTA({ onRegisterSchool, onStartFundraiser }) {
           </div>
         </motion.div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[11px] uppercase tracking-[0.28em] text-black/50 font-semibold">
-          <span>80G · 50% tax back</span>
-          <span className="w-1 h-1 rounded-full bg-black/25"/>
-          <span>Secure · Stripe · UPI · Cards</span>
-          <span className="w-1 h-1 rounded-full bg-black/25"/>
-          <span>Field report to every donor</span>
-        </div>
       </div>
     </section>
   );
