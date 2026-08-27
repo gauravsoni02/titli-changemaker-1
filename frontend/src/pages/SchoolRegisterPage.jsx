@@ -93,7 +93,11 @@ export default function SchoolRegisterPage() {
 
           {/* LEFT */}
           <section className="hidden lg:block">
-            <div className="flex items-center gap-3">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-3 cursor-pointer"
+              aria-label="Titli Foundation home"
+            >
               <ButterflyLogo size={72} tone="pink" />
 
               <div>
@@ -101,7 +105,7 @@ export default function SchoolRegisterPage() {
                   Titli Foundation
                 </div>
               </div>
-            </div>
+            </Link>
 
             <div className="mt-16 max-w-[430px]">
               <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-[#8F4A69]">
@@ -146,7 +150,11 @@ export default function SchoolRegisterPage() {
           </section>
 
           {/* MOBILE LOGO */}
-          <div className="mb-2 flex items-center gap-3 lg:hidden">
+          <Link
+            to="/"
+            className="mb-2 inline-flex items-center gap-3 cursor-pointer lg:hidden"
+            aria-label="Titli Foundation home"
+          >
             <ButterflyLogo size={38} tone="pink" />
 
             <div>
@@ -154,7 +162,7 @@ export default function SchoolRegisterPage() {
                 Titli Foundation
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* REGISTRATION CARD */}
           <section className="w-full">
@@ -292,8 +300,10 @@ export default function SchoolRegisterPage() {
                   Sign in
                 </Link>
               </div>
+
             </div>
           </section>
+
         </div>
       </div>
     </main>
