@@ -154,8 +154,7 @@ export function WhereItGoes() {
       <div className="titli-container">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14">
           <div>
-            <EyebrowLabel>Where your donation goes</EyebrowLabel>
-            <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance max-w-[760px] text-[#111]">
+            <h2 className="mt-0 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance max-w-[760px] text-[#111]">
               Actual towns. Actual girls. Actual receipts.
             </h2>
             <p className="mt-6 text-[16px] md:text-[18px] text-[#4A4A4A] leading-[1.65] max-w-[560px] font-body">

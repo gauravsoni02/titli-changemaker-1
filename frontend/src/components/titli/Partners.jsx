@@ -48,8 +48,7 @@ export function Partners() {
       <div className="titli-container mb-14">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div>
-            <EyebrowLabel>Trusted partners · Titli Foundation</EyebrowLabel>
-            <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[60px] leading-[1.02] tracking-tight balance max-w-[720px] text-[#111]">
+            <h2 className="mt-0 font-sans font-extrabold text-[42px] md:text-[60px] leading-[1.02] tracking-tight balance max-w-[720px] text-[#111]">
               Alongside the names <br/>your school already knows.
             </h2>
           </div>

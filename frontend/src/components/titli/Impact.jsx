@@ -29,8 +29,7 @@ export function Impact() {
     <section id="impact" data-testid={METRICS.section} className="relative py-32 md:py-40 bg-[#FFFBF7]">
       <div className="titli-container">
         <div className="max-w-[760px] mb-16">
-          <EyebrowLabel>Titli — impact so far</EyebrowLabel>
-          <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance text-[#111]">
+          <h2 className="mt-0 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance text-[#111]">
             What your school will be joining.
           </h2>
           <p className="mt-6 text-[16px] md:text-[18px] text-[#4A4A4A] leading-[1.65] max-w-[560px] font-body">

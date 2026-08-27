@@ -28,8 +28,7 @@ export function ForSchools({ onRegister }) {
       <div className="titli-container">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
           <div>
-            <EyebrowLabel>For Schools</EyebrowLabel>
-            <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance max-w-[720px] text-[#111]">
+            <h2 className="mt-0 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance max-w-[720px] text-[#111]">
               Everything your school gets. Nothing you pay.
             </h2>
           </div>

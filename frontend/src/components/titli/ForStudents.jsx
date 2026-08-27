@@ -38,8 +38,7 @@ export function ForStudents({ onStart }) {
           </div>
 
           <div className="col-span-12 lg:col-span-6 order-1 lg:order-2">
-            <EyebrowLabel>For Students</EyebrowLabel>
-            <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[60px] leading-[1.02] tracking-tight balance text-[#111]">
+            <h2 className="mt-0 font-sans font-extrabold text-[42px] md:text-[60px] leading-[1.02] tracking-tight balance text-[#111]">
               Your fundraiser is<br/>
               <ScribbleWord rotate={-3}>your voice</ScribbleWord>.
             </h2>

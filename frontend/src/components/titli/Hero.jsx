@@ -75,21 +75,13 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
 
         {/* RIGHT — copy */}
         <div className="col-span-12 lg:col-span-6 order-1 lg:order-2">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-          >
-            <EyebrowLabel>Schools · Students · #BreakTheTaboo</EyebrowLabel>
-          </motion.div>
-
           <motion.h1
             data-testid={HERO.headline}
             variants={container}
             initial="initial"
             animate="animate"
-            className="mt-6 font-sans font-extrabold tracking-tight leading-[0.98] text-[#111]"
-            style={{ fontSize: "clamp(44px, 6vw, 92px)" }}
+            className="mt-2 font-sans font-extrabold tracking-tight leading-[0.98] text-[#111]"
+            style={{ fontSize: "clamp(44px, 5.5vw, 76px)" }}
           >
             <span className="block overflow-hidden" style={{ paddingBottom: "0.14em", marginBottom: "-0.12em" }}>
               <motion.span variants={word} className="block whitespace-nowrap">
@@ -117,18 +109,8 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
-            className="mt-6 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.24em] font-bold text-[#EC5A99]"
-          >
-            <span className="w-6 h-px bg-[#EC5A99]"/>
-            Now, schools raise for it.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 1.35 }}
-            className="mt-8 max-w-[520px] text-[16px] md:text-[18px] leading-[1.6] text-[#4A4A4A] font-body"
+            className="mt-6 max-w-[520px] text-[16px] md:text-[18px] leading-[1.6] text-[#4A4A4A] font-body"
           >
             Titli Foundation stands against period poverty across India. Now,
             your school can join the movement — students launch fundraisers,
