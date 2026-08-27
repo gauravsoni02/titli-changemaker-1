@@ -7,24 +7,18 @@ import { ScribbleWord } from "./ScriptAccent";
 const STEPS_DATA = [
   {
     n: "01",
-    chapter: "Step one",
     title: "Your school registers.",
     body: "A quick five-minute form. You'll get a dedicated Titli coordinator, a school dashboard, and a page for every class to run its own fundraiser.",
-    tag: "For coordinators",
   },
   {
     n: "02",
-    chapter: "Step two",
     title: "Students launch fundraisers.",
     body: "Each class or student gets a shareable link. They rally parents, alumni, and family — no competition, no leaderboards, just collective momentum.",
-    tag: "For students",
   },
   {
     n: "03",
-    chapter: "Step three",
     title: "Titli delivers dignity — in your name.",
     body: "Every rupee raised buys menstrual cups, sanitary pads, and community workshops. Your school gets a field report with photographs from the girls you helped.",
-    tag: "The outcome",
   },
 ];
 
@@ -37,8 +31,7 @@ export function HowItWorks() {
     <section id="how" ref={ref} data-testid={STEPS.section} className="relative py-32 md:py-40 bg-[#FFFBF7]">
       <div className="titli-container">
         <div className="max-w-[760px]">
-          <EyebrowLabel>How it works — three steps</EyebrowLabel>
-          <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance text-[#111]">
+          <h2 className="mt-0 font-sans font-extrabold text-[42px] md:text-[64px] leading-[1.02] tracking-tight balance text-[#111]">
             From your assembly hall
             <br />
             to <ScribbleWord rotate={-4} size={1}>her hands</ScribbleWord>.
@@ -81,9 +74,6 @@ export function HowItWorks() {
                     </div>
                     <div className="absolute -inset-2 rounded-full border border-[#FFC5DE] opacity-70" />
                   </div>
-                </div>
-                <div className="text-[11px] uppercase tracking-[0.24em] text-[#EC5A99] mb-3 font-semibold">
-                  {s.chapter} · {s.tag}
                 </div>
                 <h3 className="font-sans font-extrabold text-[28px] md:text-[40px] leading-[1.1] tracking-tight balance text-[#111]">
                   {s.title}

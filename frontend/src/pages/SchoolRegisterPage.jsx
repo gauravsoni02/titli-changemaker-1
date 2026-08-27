@@ -88,81 +88,95 @@ export default function SchoolRegisterPage() {
 
   return (
     <main className="min-h-screen w-full bg-[#FFF1F7] px-5 py-8 md:px-10 md:py-12">
-      <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-[1180px] items-center">
-        <div className="grid w-full items-center gap-12 lg:grid-cols-[1fr_560px] lg:gap-20">
+      <div className="mx-auto max-w-[1180px]">
+        {/* BACK TO HOME */}
+        <div className="mb-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-[13px] font-semibold text-[#8F4A69] hover:text-[#EC5A99] transition-colors group"
+          >
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white border border-[#E8C8D6] shadow-xs group-hover:bg-[#EC5A99] group-hover:text-white group-hover:border-[#EC5A99] transition-all">
+              ←
+            </span>
+            Back to Home
+          </Link>
+        </div>
 
-          {/* LEFT */}
-          <section className="hidden lg:block">
+        <div className="flex min-h-[calc(100vh-140px)] items-center">
+          <div className="grid w-full items-center gap-12 lg:grid-cols-[1fr_560px] lg:gap-20">
+
+            {/* LEFT */}
+            <section className="hidden lg:block">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-3 cursor-pointer hover:opacity-85 transition-opacity"
+                aria-label="Titli Foundation home"
+              >
+                <ButterflyLogo size={72} tone="pink" />
+
+                <div>
+                  <div className="text-[17px] font-extrabold tracking-tight text-[#EC5A99]">
+                    Titli Foundation
+                  </div>
+                </div>
+              </Link>
+
+              <div className="mt-16 max-w-[430px]">
+                <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-[#8F4A69]">
+                  School registration
+                </div>
+
+                <h1 className="font-sans text-[52px] font-extrabold leading-[.95] tracking-[-0.04em] text-[#111]">
+                  Bring your
+                  <br />
+                  school <span className="text-[#EC5A99]">on board.</span>
+                </h1>
+
+                <p className="mt-6 max-w-[390px] text-[15px] leading-7 text-[#444]">
+                  Create your school account and give students access to
+                  meaningful menstrual health education and resources.
+                </p>
+
+                <div className="mt-9 space-y-5">
+                  {[
+                    ["01", "Register your school", "Tell us about your school and coordinator."],
+                    ["02", "Access your dashboard", "Manage your school participation."],
+                    ["03", "Start making an impact", "Help students access better resources."],
+                  ].map(([num, title, text]) => (
+                    <div key={num} className="flex gap-4">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EC5A99] text-[9px] font-bold text-white">
+                        {num}
+                      </span>
+
+                      <div>
+                        <p className="text-[12px] font-bold text-[#111]">
+                          {title}
+                        </p>
+
+                        <p className="mt-0.5 text-[11px] text-[#555]">
+                          {text}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* MOBILE LOGO */}
             <Link
               to="/"
-              className="inline-flex items-center gap-3 cursor-pointer"
+              className="mb-2 inline-flex items-center gap-3 cursor-pointer lg:hidden hover:opacity-85 transition-opacity"
               aria-label="Titli Foundation home"
             >
-              <ButterflyLogo size={72} tone="pink" />
+              <ButterflyLogo size={38} tone="pink" />
 
               <div>
-                <div className="text-[17px] font-extrabold tracking-tight text-[#EC5A99]">
+                <div className="text-[16px] font-extrabold text-[#EC5A99]">
                   Titli Foundation
                 </div>
               </div>
             </Link>
-
-            <div className="mt-16 max-w-[430px]">
-              <div className="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-[#8F4A69]">
-                School registration
-              </div>
-
-              <h1 className="font-sans text-[52px] font-extrabold leading-[.95] tracking-[-0.04em] text-[#111]">
-                Bring your
-                <br />
-                school <span className="text-[#EC5A99]">on board.</span>
-              </h1>
-
-              <p className="mt-6 max-w-[390px] text-[15px] leading-7 text-[#444]">
-                Create your school account and give students access to
-                meaningful menstrual health education and resources.
-              </p>
-
-              <div className="mt-9 space-y-5">
-                {[
-                  ["01", "Register your school", "Tell us about your school and coordinator."],
-                  ["02", "Access your dashboard", "Manage your school participation."],
-                  ["03", "Start making an impact", "Help students access better resources."],
-                ].map(([num, title, text]) => (
-                  <div key={num} className="flex gap-4">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EC5A99] text-[9px] font-bold text-white">
-                      {num}
-                    </span>
-
-                    <div>
-                      <p className="text-[12px] font-bold text-[#111]">
-                        {title}
-                      </p>
-
-                      <p className="mt-0.5 text-[11px] text-[#555]">
-                        {text}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* MOBILE LOGO */}
-          <Link
-            to="/"
-            className="mb-2 inline-flex items-center gap-3 cursor-pointer lg:hidden"
-            aria-label="Titli Foundation home"
-          >
-            <ButterflyLogo size={38} tone="pink" />
-
-            <div>
-              <div className="text-[16px] font-extrabold text-[#EC5A99]">
-                Titli Foundation
-              </div>
-            </div>
-          </Link>
 
           {/* REGISTRATION CARD */}
           <section className="w-full">
@@ -300,6 +314,8 @@ export default function SchoolRegisterPage() {
                   Sign in
                 </Link>
               </div>
+
+            </div>
 
             </div>
           </section>

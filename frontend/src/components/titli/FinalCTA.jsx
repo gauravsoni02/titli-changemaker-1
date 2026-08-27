@@ -20,9 +20,6 @@ export function FinalCTA({ onRegisterSchool, onStartFundraiser }) {
           {/* LEFT — Schools */}
           <div className="relative bg-[#EC5A99] text-white p-10 md:p-16 flex flex-col justify-between min-h-[520px]">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.28em] font-bold text-white/80 mb-6">
-                For School coordinators
-              </div>
               <h3 className="font-sans font-extrabold text-[36px] md:text-[52px] leading-[1] tracking-tight balance">
                 Register your school. Now.
               </h3>
@@ -53,9 +50,6 @@ export function FinalCTA({ onRegisterSchool, onStartFundraiser }) {
               background: "linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(236,90,153,0.55) 100%)"
             }}/>
             <div className="relative">
-              <div className="text-[11px] uppercase tracking-[0.28em] font-bold text-white/80 mb-6">
-                For Students
-              </div>
               <h3 className="font-sans font-extrabold text-[36px] md:text-[52px] leading-[1] tracking-tight balance">
                 Start your fundraiser today.
               </h3>
