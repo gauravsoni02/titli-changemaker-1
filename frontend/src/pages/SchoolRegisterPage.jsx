@@ -104,7 +104,6 @@ export default function SchoolRegisterPage() {
 
         <div className="flex min-h-[calc(100vh-140px)] items-center">
           <div className="grid w-full items-center gap-12 lg:grid-cols-[1fr_560px] lg:gap-20">
-
             {/* LEFT */}
             <section className="hidden lg:block">
               <Link
@@ -113,7 +112,6 @@ export default function SchoolRegisterPage() {
                 aria-label="Titli Foundation home"
               >
                 <ButterflyLogo size={72} tone="pink" />
-
                 <div>
                   <div className="text-[17px] font-extrabold tracking-tight text-[#EC5A99]">
                     Titli Foundation
@@ -147,15 +145,9 @@ export default function SchoolRegisterPage() {
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EC5A99] text-[9px] font-bold text-white">
                         {num}
                       </span>
-
                       <div>
-                        <p className="text-[12px] font-bold text-[#111]">
-                          {title}
-                        </p>
-
-                        <p className="mt-0.5 text-[11px] text-[#555]">
-                          {text}
-                        </p>
+                        <p className="text-[12px] font-bold text-[#111]">{title}</p>
+                        <p className="mt-0.5 text-[11px] text-[#555]">{text}</p>
                       </div>
                     </div>
                   ))}
@@ -170,7 +162,6 @@ export default function SchoolRegisterPage() {
               aria-label="Titli Foundation home"
             >
               <ButterflyLogo size={38} tone="pink" />
-
               <div>
                 <div className="text-[16px] font-extrabold text-[#EC5A99]">
                   Titli Foundation
@@ -178,148 +169,141 @@ export default function SchoolRegisterPage() {
               </div>
             </Link>
 
-          {/* REGISTRATION CARD */}
-          <section className="w-full">
-            <div className="rounded-[30px] border border-[#E8C8D6] bg-[#FFFBF7] p-7 shadow-[0_22px_55px_rgba(30,20,25,.10)] md:p-10">
+            {/* REGISTRATION CARD */}
+            <section className="w-full">
+              <div className="rounded-[30px] border border-[#E8C8D6] bg-[#FFFBF7] p-7 shadow-[0_22px_55px_rgba(30,20,25,.10)] md:p-10">
+                <div className="mb-7">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.26em] text-[#8F4A69]">
+                    School registration
+                  </div>
 
-              <div className="mb-7">
-                <div className="text-[10px] font-bold uppercase tracking-[0.26em] text-[#8F4A69]">
-                  School registration
+                  <h2 className="mt-3 text-[30px] font-extrabold leading-tight tracking-[-0.025em] text-[#111] md:text-[36px]">
+                    Registration details
+                  </h2>
+
+                  <p className="mt-2 max-w-[470px] text-[13px] leading-5 text-[#444]">
+                    Create your school account. Your dashboard will be available
+                    immediately after registration.
+                  </p>
+
+                  {/* PROGRESS */}
+                  <div className="mt-5">
+                    <div className="flex gap-2">
+                      <span className="h-[3px] flex-1 rounded-full bg-[#EC5A99]" />
+                      <span className="h-[3px] flex-1 rounded-full bg-[#F3DCE7]" />
+                      <span className="h-[3px] flex-1 rounded-full bg-[#F3DCE7]" />
+                    </div>
+                    <div className="mt-2 text-[8px] font-semibold uppercase tracking-[0.22em] text-[#888]">
+                      Step 1 · School information
+                    </div>
+                  </div>
                 </div>
 
-                <h2 className="mt-3 text-[30px] font-extrabold leading-tight tracking-[-0.025em] text-[#111] md:text-[36px]">
-                  Registration details
-                </h2>
+                <form onSubmit={submit} className="space-y-4">
+                  <Field label="School name">
+                    <input
+                      className={input}
+                      value={form.school_name}
+                      onChange={update("school_name")}
+                      placeholder="Delhi Public School, R.K. Puram"
+                    />
+                  </Field>
 
-                <p className="mt-2 max-w-[470px] text-[13px] leading-5 text-[#444]">
-                  Create your school account. Your dashboard will be available
-                  immediately after registration.
-                </p>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <Field label="City">
+                      <input
+                        className={input}
+                        value={form.city}
+                        onChange={update("city")}
+                        placeholder="New Delhi"
+                      />
+                    </Field>
 
-                {/* PROGRESS */}
-                <div className="mt-5">
-                  <div className="flex gap-2">
-                    <span className="h-[3px] flex-1 rounded-full bg-[#EC5A99]" />
-                    <span className="h-[3px] flex-1 rounded-full bg-[#F3DCE7]" />
-                    <span className="h-[3px] flex-1 rounded-full bg-[#F3DCE7]" />
+                    <Field label="School size">
+                      <select
+                        className={input}
+                        value={form.size}
+                        onChange={update("size")}
+                      >
+                        {SIZES.map((size) => (
+                          <option key={size} value={size}>
+                            {size} students
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
                   </div>
 
-                  <div className="mt-2 text-[8px] font-semibold uppercase tracking-[0.22em] text-[#888]">
-                    Step 1 · School information
+                  <Field label="Coordinator name">
+                    <input
+                      className={input}
+                      value={form.coordinator_name}
+                      onChange={update("coordinator_name")}
+                      placeholder="Ms. Priya Sharma"
+                    />
+                  </Field>
+
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <Field label="Coordinator email">
+                      <input
+                        type="email"
+                        autoComplete="username"
+                        className={input}
+                        value={form.coordinator_email}
+                        onChange={update("coordinator_email")}
+                        placeholder="coordinator@school.edu"
+                      />
+                    </Field>
+
+                    <Field label="Phone (optional)">
+                      <input
+                        className={input}
+                        value={form.phone}
+                        onChange={update("phone")}
+                        placeholder="+91 ..."
+                      />
+                    </Field>
                   </div>
+
+                  <Field label="Create password (8+ chars)">
+                    <input
+                      type="password"
+                      autoComplete="new-password"
+                      className={input}
+                      value={form.password}
+                      onChange={update("password")}
+                      placeholder="••••••••"
+                    />
+                  </Field>
+
+                  {error && (
+                    <div className="rounded-2xl border border-[#EC5A99]/25 bg-[#EC5A99]/5 px-4 py-3 text-[12px] text-[#B83268]">
+                      {error}
+                    </div>
+                  )}
+
+                  <TitliButton
+                    type="submit"
+                    size="lg"
+                    disabled={loading}
+                    className="!mt-6 w-full justify-center"
+                  >
+                    {loading ? "Creating account..." : "Register school →"}
+                  </TitliButton>
+                </form>
+
+                <div className="mt-7 border-t border-black/10 pt-5 text-center text-[12px] text-[#444]">
+                  Already registered?{" "}
+                  <Link
+                    to="/login"
+                    className="font-semibold text-[#EC5A99] hover:underline"
+                  >
+                    Sign in
+                  </Link>
                 </div>
               </div>
-
-              <form onSubmit={submit} className="space-y-4">
-
-                <Field label="School name">
-                  <input
-                    className={input}
-                    value={form.school_name}
-                    onChange={update("school_name")}
-                    placeholder="Delhi Public School, R.K. Puram"
-                  />
-                </Field>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <Field label="City">
-                    <input
-                      className={input}
-                      value={form.city}
-                      onChange={update("city")}
-                      placeholder="New Delhi"
-                    />
-                  </Field>
-
-                  <Field label="School size">
-                    <select
-                      className={input}
-                      value={form.size}
-                      onChange={update("size")}
-                    >
-                      {SIZES.map((size) => (
-                        <option key={size} value={size}>
-                          {size} students
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                </div>
-
-                <Field label="Coordinator name">
-                  <input
-                    className={input}
-                    value={form.coordinator_name}
-                    onChange={update("coordinator_name")}
-                    placeholder="Ms. Priya Sharma"
-                  />
-                </Field>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <Field label="Coordinator email">
-                    <input
-                      type="email"
-                      autoComplete="username"
-                      className={input}
-                      value={form.coordinator_email}
-                      onChange={update("coordinator_email")}
-                      placeholder="coordinator@school.edu"
-                    />
-                  </Field>
-
-                  <Field label="Phone (optional)">
-                    <input
-                      className={input}
-                      value={form.phone}
-                      onChange={update("phone")}
-                      placeholder="+91 ..."
-                    />
-                  </Field>
-                </div>
-
-                <Field label="Create password (8+ chars)">
-                  <input
-                    type="password"
-                    autoComplete="new-password"
-                    className={input}
-                    value={form.password}
-                    onChange={update("password")}
-                    placeholder="••••••••"
-                  />
-                </Field>
-
-                {error && (
-                  <div className="rounded-2xl border border-[#EC5A99]/25 bg-[#EC5A99]/5 px-4 py-3 text-[12px] text-[#B83268]">
-                    {error}
-                  </div>
-                )}
-
-                <TitliButton
-                  type="submit"
-                  size="lg"
-                  disabled={loading}
-                  className="!mt-6 w-full justify-center"
-                >
-                  {loading ? "Creating account..." : "Register school →"}
-                </TitliButton>
-
-              </form>
-
-              <div className="mt-7 border-t border-black/10 pt-5 text-center text-[12px] text-[#444]">
-                Already registered?{" "}
-                <Link
-                  to="/login"
-                  className="font-semibold text-[#EC5A99] hover:underline"
-                >
-                  Sign in
-                </Link>
-              </div>
-
-            </div>
-
-            </div>
-          </section>
-
+            </section>
+          </div>
         </div>
       </div>
     </main>
