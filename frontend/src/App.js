@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Lenis from "lenis";
+import { MotionConfig } from "framer-motion";
 import "@/App.css";
 
 import { Nav } from "@/components/titli/Nav";
@@ -14,19 +15,17 @@ import { Partners } from "@/components/titli/Partners";
 import { BreakTheTaboo } from "@/components/titli/BreakTheTaboo";
 import { FinalCTA } from "@/components/titli/FinalCTA";
 import { Footer } from "@/components/titli/Footer";
-import { StudentCampaignModal } from "@/components/titli/StudentCampaignModal";
 
 import { AuthProvider, useAuth } from "@/auth/AuthContext";
 
 import LoginPage from "@/pages/LoginPage";
 import DashboardPage from "@/pages/DashboardPage";
 import SchoolRegisterPage from "@/pages/SchoolRegisterPage";
+import StudentFundraiserPage from "@/pages/StudentFundraiserPage";
 
 function useLenis() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -49,8 +48,6 @@ function useLenis() {
 }
 
 function Landing() {
-  const [studentOpen, setStudentOpen] = useState(false);
-
   const { coordinator } = useAuth();
   const navigate = useNavigate();
 
@@ -60,12 +57,11 @@ function Landing() {
     coordinator && typeof coordinator === "object";
 
   const handleRegisterSchool = () => {
-    if (isSignedIn) {
-      navigate("/dashboard");
-      return;
-    }
+    navigate(isSignedIn ? "/dashboard" : "/register");
+  };
 
-    navigate("/register");
+  const handleStudentFundraiser = () => {
+    navigate("/student");
   };
 
   return (
@@ -76,16 +72,14 @@ function Landing() {
 
       <Hero
         onRegisterSchool={handleRegisterSchool}
-        onStartFundraiser={() => setStudentOpen(true)}
+        onStartFundraiser={handleStudentFundraiser}
       />
 
       <HowItWorks />
 
       <ForSchools onRegister={handleRegisterSchool} />
 
-      <ForStudents
-        onStart={() => setStudentOpen(true)}
-      />
+      <ForStudents onStart={handleStudentFundraiser} />
 
       <Impact />
 
@@ -97,52 +91,29 @@ function Landing() {
 
       <FinalCTA
         onRegisterSchool={handleRegisterSchool}
-        onStartFundraiser={() => setStudentOpen(true)}
+        onStartFundraiser={handleStudentFundraiser}
       />
 
       <Footer />
-
-      <StudentCampaignModal
-        open={studentOpen}
-        onClose={() => setStudentOpen(false)}
-      />
     </div>
   );
 }
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-
-          {/* Landing page */}
-          <Route
-            path="/"
-            element={<Landing />}
-          />
-
-          {/* Login */}
-          <Route
-            path="/login"
-            element={<LoginPage />}
-          />
-
-          {/* School registration */}
-          <Route
-            path="/register"
-            element={<SchoolRegisterPage />}
-          />
-
-          {/* Dashboard */}
-          <Route
-            path="/dashboard"
-            element={<DashboardPage />}
-          />
-
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<SchoolRegisterPage />} />
+          <Route path="/student" element={<StudentFundraiserPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
+    </MotionConfig>
   );
 }
 

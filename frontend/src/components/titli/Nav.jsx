@@ -44,7 +44,7 @@ export function Nav({ onRegisterSchool }) {
       <a
         href="#top"
         data-testid="nav-brand"
-        className="flex items-center gap-3 focus:outline-none shrink-0 transition-opacity hover:opacity-85"
+        className="flex min-h-11 items-center gap-3 rounded-lg shrink-0 transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-titli-action focus-visible:ring-offset-3"
       >
         <img
           src="/titli-logo.png"
@@ -61,7 +61,7 @@ export function Nav({ onRegisterSchool }) {
             key={l.id}
             href={l.href}
             data-testid={NAV.link(l.id)}
-            className="px-3 lg:px-4 py-2 text-[14px] font-medium text-[#EC5A99] hover:opacity-70 transition-opacity duration-200 whitespace-nowrap"
+            className="inline-flex min-h-11 items-center rounded-lg px-3 lg:px-4 py-2 text-[14px] font-medium text-titli-action hover:opacity-70 transition-opacity duration-200 whitespace-nowrap focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-titli-action focus-visible:ring-offset-3"
             style={{ WebkitTapHighlightColor: "transparent" }}
           >
             {l.label}
@@ -70,7 +70,7 @@ export function Nav({ onRegisterSchool }) {
         <a
           href="/login"
           data-testid="nav-signin"
-          className="inline-flex items-center gap-1.5 px-3 lg:px-4 py-2 text-[13px] font-medium text-black/55 hover:text-[#EC5A99] transition-colors duration-200 whitespace-nowrap group"
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 lg:px-4 py-2 text-[13px] font-medium text-black/55 hover:text-titli-action transition-colors duration-200 whitespace-nowrap group focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-titli-action focus-visible:ring-offset-3"
         >
           <img
             src="/titli-butterfly.png"
@@ -84,7 +84,7 @@ export function Nav({ onRegisterSchool }) {
         <button
           onClick={onRegisterSchool}
           data-testid={NAV.donate}
-          className="ml-2 lg:ml-3 px-5 lg:px-6 py-2.5 text-[14px] font-semibold text-white bg-[#EC5A99] rounded-[12px] shadow-sm hover:bg-[#D84C8A] active:opacity-80 transition-all duration-200 whitespace-nowrap"
+          className="ml-2 lg:ml-3 min-h-11 px-5 lg:px-6 py-2 text-[14px] font-semibold text-white bg-titli-action rounded-[12px] shadow-sm hover:bg-titli-action-hover active:opacity-80 transition-all duration-200 whitespace-nowrap focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-titli-action focus-visible:ring-offset-3"
           style={{ WebkitTapHighlightColor: "transparent" }}
         >
           Register School
@@ -95,7 +95,7 @@ export function Nav({ onRegisterSchool }) {
         <button
           onClick={onRegisterSchool}
           data-testid={`${NAV.donate}-mobile`}
-          className="px-4 py-2 text-[13px] font-semibold text-white bg-[#EC5A99] rounded-[10px]"
+          className="min-h-11 px-4 py-2 text-[13px] font-semibold text-white bg-titli-action rounded-[10px] focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-titli-action focus-visible:ring-offset-3"
         >
           Register
         </button>

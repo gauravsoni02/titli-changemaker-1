@@ -118,7 +118,7 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
-            className="mt-6 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.24em] font-bold text-[#EC5A99]"
+            className="mt-6 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.24em] font-bold text-titli-action"
           >
             <span className="w-6 h-px bg-[#EC5A99]"/>
             Now, schools raise for it.

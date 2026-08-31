@@ -19,10 +19,8 @@ export function ButterflyLogo({
 
   return (
     <div
-      role="status"
-      aria-live="polite"
       className={`inline-flex flex-col items-center justify-center gap-2 ${className}`}
-      data-testid="butterfly-loader"
+      data-testid="butterfly-logo"
     >
       <img
         src="/titli-butterfly.png"
@@ -40,9 +38,7 @@ export function ButterflyLogo({
       {label && (
         <span
           className={`text-[11px] uppercase tracking-[0.24em] font-semibold ${
-            tone === "white"
-              ? "text-white/80"
-              : "text-[#EC5A99]"
+            tone === "white" ? "text-white" : "text-titli-action"
           }`}
         >
           {label}
@@ -58,4 +54,11 @@ export function ButterflyLogo({
  * Keep ButterflyLoader available for any existing imports.
  * Both names now use the same static butterfly component.
  */
-export const ButterflyLoader = ButterflyLogo;
+export function ButterflyLoader(props) {
+  return (
+    <div role="status" aria-live="polite" data-testid="butterfly-loader">
+      <ButterflyLogo {...props} />
+      <span className="sr-only">Loading</span>
+    </div>
+  );
+}

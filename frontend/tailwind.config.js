@@ -20,6 +20,8 @@ module.exports = {
                 titli: {
                     pink: '#EC5A99',
                     'pink-hover': '#D84C8A',
+                    action: '#B83268',
+                    'action-hover': '#A32857',
                     'light-pink': '#FFC5DE',
                     'pale-pink': '#FEF1F8',
                     cream: '#FFFBF7',

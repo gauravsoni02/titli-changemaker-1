@@ -82,7 +82,7 @@ export function HowItWorks() {
                     <div className="absolute -inset-2 rounded-full border border-[#FFC5DE] opacity-70" />
                   </div>
                 </div>
-                <div className="text-[11px] uppercase tracking-[0.24em] text-[#EC5A99] mb-3 font-semibold">
+                <div className="text-[11px] uppercase tracking-[0.24em] text-titli-action mb-3 font-semibold">
                   {s.chapter} · {s.tag}
                 </div>
                 <h3 className="font-sans font-extrabold text-[28px] md:text-[40px] leading-[1.1] tracking-tight balance text-[#111]">

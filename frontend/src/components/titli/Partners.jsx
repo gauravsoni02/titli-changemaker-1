@@ -35,7 +35,7 @@ function LogoPill({ name, file }) {
         className="max-h-14 max-w-full object-contain"
         onError={(e) => {
           e.currentTarget.style.display = "none";
-          e.currentTarget.parentElement.innerHTML = `<span class="text-[13px] font-bold text-[#EC5A99] tracking-tight text-center">${name}</span>`;
+          e.currentTarget.parentElement.innerHTML = `<span class="text-[13px] font-bold text-titli-action tracking-tight text-center">${name}</span>`;
         }}
       />
     </div>

@@ -19,7 +19,7 @@ function StatCard({ label, value, suffix = "", prefix = "", note, i }) {
       transition={{ duration: 0.6, delay: i * 0.06 }}
       className="rounded-[24px] bg-white border border-black/[0.05] shadow-soft p-6 md:p-7"
     >
-      <div className="text-[11px] uppercase tracking-[0.22em] text-[#EC5A99] font-bold mb-3">0{i + 1}</div>
+      <div className="text-[11px] uppercase tracking-[0.22em] text-titli-action font-bold mb-3">0{i + 1}</div>
       <div className="font-sans font-extrabold text-[40px] md:text-[52px] leading-[0.95] tracking-tight text-[#111]">
         {prefix}<CountUp end={value} duration={1.6} separator=","/>{suffix}
       </div>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
           <Link to="/" className="flex items-center gap-3 group">
             <TitliButterfly size={26} className="transition-transform group-hover:scale-110"/>
             <div className="hidden sm:block">
-              <div className="font-sans font-extrabold text-[13px] tracking-[0.18em] text-[#EC5A99] uppercase">Titli Foundation</div>
+              <div className="font-sans font-extrabold text-[13px] tracking-[0.18em] text-titli-action uppercase">Titli Foundation</div>
               <div className="text-[11px] text-black/50 -mt-0.5">School Dashboard</div>
             </div>
           </Link>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
         </div>
 
         {error && (
-          <div className="mb-6 rounded-[20px] bg-white border border-[#EC5A99]/30 p-4 text-[#EC5A99] text-[14px]">
+          <div role="alert" className="mb-6 rounded-[20px] bg-white border border-titli-action/30 p-4 text-titli-action text-[14px]">
             {error}
           </div>
         )}
@@ -155,7 +155,7 @@ export default function DashboardPage() {
         <section className="mt-14 rounded-[28px] bg-white border border-black/[0.05] shadow-soft overflow-hidden">
           <div className="flex items-center justify-between p-6 md:p-8 border-b border-black/[0.06]">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.24em] text-[#EC5A99] font-bold">All campaigns</div>
+              <div className="text-[11px] uppercase tracking-[0.24em] text-titli-action font-bold">All campaigns</div>
               <h2 className="mt-1 font-sans font-extrabold text-[22px] md:text-[26px] tracking-tight text-[#111]">
                 Every student, every rupee.
               </h2>
@@ -197,7 +197,7 @@ export default function DashboardPage() {
                         <Td className="text-black/70">{c.grade || "—"}</Td>
                         <Td className="text-black/70">₹{Number(c.target_amount || 0).toLocaleString()}</Td>
                         <Td>
-                          <span className="font-semibold text-[#EC5A99]">₹{Number(c.raised_amount || 0).toLocaleString()}</span>
+                          <span className="font-semibold text-titli-action">₹{Number(c.raised_amount || 0).toLocaleString()}</span>
                         </Td>
                         <Td>
                           <div className="flex items-center gap-2">
@@ -209,7 +209,7 @@ export default function DashboardPage() {
                         </Td>
                         <Td>
                           <span className={`inline-flex px-2.5 py-1 rounded-full text-[11px] uppercase tracking-widest font-bold ${
-                            c.status === "active" ? "bg-[#FEF1F8] text-[#EC5A99] border border-[#FFC5DE]"
+                            c.status === "active" ? "bg-[#FEF1F8] text-titli-action border border-[#FFC5DE]"
                             : "bg-black/5 text-black/60 border border-black/10"
                           }`}>{c.status || "active"}</span>
                         </Td>

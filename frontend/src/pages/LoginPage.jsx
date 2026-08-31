@@ -84,12 +84,11 @@ export default function LoginPage() {
               />
             </label>
 
-            {err && <div className="text-[13px] text-[#EC5A99]">{err}</div>}
+            {err && <div role="alert" className="text-[13px] text-titli-action">{err}</div>}
 
             <TitliButton
               type="submit"
               size="lg"
-              onClick={submit}
               disabled={loading}
               data-testid="login-submit"
               className="w-full justify-center"
@@ -108,7 +107,7 @@ export default function LoginPage() {
 
           <div className="mt-6 pt-6 border-t border-black/[0.08] text-[13px] text-[#4A4A4A] text-center font-body">
             Not registered yet?{" "}
-            <Link to="/" className="text-[#EC5A99] font-semibold hover:underline">Register your school</Link>
+            <Link to="/" className="text-titli-action font-semibold hover:underline">Register your school</Link>
           </div>
         </motion.div>
       </div>

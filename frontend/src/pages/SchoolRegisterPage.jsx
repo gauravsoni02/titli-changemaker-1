@@ -97,7 +97,7 @@ export default function SchoolRegisterPage() {
               <ButterflyLogo size={72} tone="pink" />
 
               <div>
-                <div className="text-[17px] font-extrabold tracking-tight text-[#EC5A99]">
+                <div className="text-[17px] font-extrabold tracking-tight text-titli-action">
                   Titli Foundation
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function SchoolRegisterPage() {
             <ButterflyLogo size={38} tone="pink" />
 
             <div>
-              <div className="text-[16px] font-extrabold text-[#EC5A99]">
+              <div className="text-[16px] font-extrabold text-titli-action">
                 Titli Foundation
               </div>
             </div>
@@ -267,7 +267,7 @@ export default function SchoolRegisterPage() {
                 </Field>
 
                 {error && (
-                  <div className="rounded-2xl border border-[#EC5A99]/25 bg-[#EC5A99]/5 px-4 py-3 text-[12px] text-[#B83268]">
+                  <div role="alert" className="rounded-2xl border border-titli-action/25 bg-titli-pink/5 px-4 py-3 text-[12px] text-titli-action">
                     {error}
                   </div>
                 )}
@@ -287,7 +287,7 @@ export default function SchoolRegisterPage() {
                 Already registered?{" "}
                 <Link
                   to="/login"
-                  className="font-semibold text-[#EC5A99] hover:underline"
+                  className="font-semibold text-titli-action hover:underline"
                 >
                   Sign in
                 </Link>

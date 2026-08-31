@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { TitliButton } from "./TitliButton";
 import { TitliButterfly } from "./ScriptAccent";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -13,6 +14,7 @@ export function StudentCampaignModal({ open, onClose }) {
   });
   const [state, setState] = useState("idle");
   const [err, setErr] = useState("");
+  const { dialogRef, titleId } = useDialogA11y(open, onClose);
 
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
 
@@ -48,6 +50,10 @@ export function StudentCampaignModal({ open, onClose }) {
         >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" onClick={onClose}/>
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
             initial={{ opacity: 0, y: 40, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -55,9 +61,11 @@ export function StudentCampaignModal({ open, onClose }) {
             className="relative w-full max-w-[520px] bg-[#FFFBF7] rounded-[32px] p-8 md:p-10 shadow-hero border border-[#FFC5DE]/50 max-h-[92vh] overflow-y-auto"
           >
             <button
+              type="button"
+              data-dialog-initial-focus
               data-testid="student-modal-close"
               onClick={onClose}
-              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-black/70 transition-all"
+              className="absolute top-5 right-5 min-w-11 min-h-11 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-black/70 transition-all"
               aria-label="Close"
             >×</button>
 
@@ -65,9 +73,9 @@ export function StudentCampaignModal({ open, onClose }) {
               <>
                 <div className="flex items-center gap-3 mb-4">
                   <TitliButterfly size={30}/>
-                  <div className="text-[11px] uppercase tracking-[0.28em] text-[#EC5A99] font-bold">Start your fundraiser</div>
+                  <div className="text-[11px] uppercase tracking-[0.28em] text-titli-action font-bold">Start your fundraiser</div>
                 </div>
-                <h3 className="font-sans font-extrabold text-[30px] leading-[1.1] tracking-tight text-[#111]">
+                <h3 id={titleId} className="font-sans font-extrabold text-[30px] leading-[1.1] tracking-tight text-[#111]">
                   You + a target. That&apos;s it.
                 </h3>
                 <p className="mt-2 text-[14px] text-[#4A4A4A] font-body">
@@ -93,12 +101,11 @@ export function StudentCampaignModal({ open, onClose }) {
                     <input type="number" min="500" value={f.target_amount} onChange={set("target_amount")} data-testid="student-target-input" className={inputCls} placeholder="5000"/>
                   </Field>
 
-                  {err && <div className="text-[13px] text-[#EC5A99]">{err}</div>}
+                  {err && <div role="alert" className="text-[13px] text-titli-action">{err}</div>}
 
                   <TitliButton
                     type="submit"
                     size="lg"
-                    onClick={submit}
                     disabled={state === "loading"}
                     data-testid="student-submit"
                     className="w-full justify-center"
@@ -116,11 +123,11 @@ export function StudentCampaignModal({ open, onClose }) {
                 <div className="flex justify-center mb-6 animate-flutter">
                   <TitliButterfly size={60}/>
                 </div>
-                <h3 className="font-sans font-extrabold text-[30px] leading-[1.1] tracking-tight text-[#111]">
+                <h3 id={titleId} className="font-sans font-extrabold text-[30px] leading-[1.1] tracking-tight text-[#111]">
                   Campaign created 🎉
                 </h3>
                 <p className="mt-3 text-[15px] text-[#4A4A4A] max-w-[380px] mx-auto font-body">
-                  Check your email <span className="text-[#EC5A99] font-semibold">{f.email}</span> for your shareable link and QR poster.
+                  Check your email <span className="text-titli-action font-semibold">{f.email}</span> for your shareable link and QR poster.
                 </p>
                 <TitliButton onClick={onClose} className="mt-8">Done</TitliButton>
               </div>

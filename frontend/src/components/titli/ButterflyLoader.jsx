@@ -40,7 +40,7 @@ export function ButterflyLoader({ size = 48, label, tone = "pink", className = "
       {label && (
         <span
           className={`text-[11px] uppercase tracking-[0.24em] font-semibold ${
-            tone === "white" ? "text-white/80" : "text-[#EC5A99]"
+            tone === "white" ? "text-white" : "text-titli-action"
           }`}
         >
           {label}

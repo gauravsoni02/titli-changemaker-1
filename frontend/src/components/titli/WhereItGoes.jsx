@@ -4,6 +4,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { motion, AnimatePresence } from "framer-motion";
 import { STORIES } from "@/constants/testIds";
 import { EyebrowLabel } from "./TitliButton";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 // Real Titli deployment locations (from titlifoundation.in)
 const LOCATIONS = [
@@ -46,7 +47,7 @@ const PARALLAX = 0.5;
 
 export function WhereItGoes() {
   const autoplay = useRef(
-    Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })
+    Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false, playOnInit: false })
   );
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center", dragFree: false, containScroll: false, startIndex: LOCATIONS.length },
@@ -56,6 +57,8 @@ export function WhereItGoes() {
   const [selected, setSelected] = useState(0);
   const [modalItem, setModalItem] = useState(null);
   const sectionRef = useRef(null);
+  const closeModal = useCallback(() => setModalItem(null), []);
+  const { dialogRef, titleId } = useDialogA11y(Boolean(modalItem), closeModal);
 
   const setTweenNodes = useCallback((api) => {
     tweenNodesRef.current = api
@@ -64,6 +67,7 @@ export function WhereItGoes() {
   }, []);
 
   const tweenParallax = useCallback((api, eventName) => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const engine = api.internalEngine();
     const scrollProgress = api.scrollProgress();
     const slidesInView = api.slidesInView();
@@ -128,14 +132,6 @@ export function WhereItGoes() {
     return () => { io.disconnect(); window.removeEventListener("keydown", onKey); };
   }, [emblaApi]);
 
-  // Escape closes the modal
-  useEffect(() => {
-    if (!modalItem) return;
-    const onKey = (e) => { if (e.key === "Escape") setModalItem(null); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [modalItem]);
-
   const pauseAutoplay = () => autoplay.current?.stop();
   const resumeAutoplay = () => autoplay.current?.play();
 
@@ -167,13 +163,13 @@ export function WhereItGoes() {
             <button
               data-testid={STORIES.prev}
               onClick={() => { emblaApi?.scrollPrev(); autoplay.current?.reset(); }}
-              className="w-12 h-12 rounded-full border border-[#EC5A99]/30 bg-white flex items-center justify-center transition-all hover:border-[#EC5A99] hover:text-[#EC5A99] hover:scale-105"
+              className="w-12 h-12 rounded-full border border-titli-action/30 bg-white flex items-center justify-center text-titli-action transition-all hover:border-titli-action hover:scale-105"
               aria-label="Previous location"
             >←</button>
             <button
               data-testid={STORIES.next}
               onClick={() => { emblaApi?.scrollNext(); autoplay.current?.reset(); }}
-              className="w-12 h-12 rounded-full border border-[#EC5A99]/30 bg-white flex items-center justify-center transition-all hover:border-[#EC5A99] hover:text-[#EC5A99] hover:scale-105"
+              className="w-12 h-12 rounded-full border border-titli-action/30 bg-white flex items-center justify-center text-titli-action transition-all hover:border-titli-action hover:scale-105"
               aria-label="Next location"
             >→</button>
           </div>
@@ -213,7 +209,7 @@ export function WhereItGoes() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10 pointer-events-none"/>
                   <div className="absolute top-6 left-6 right-6 flex items-center justify-between text-white">
-                    <div className="text-[11px] uppercase tracking-[0.24em] font-semibold opacity-90">{s.tag}</div>
+                    <div className="rounded-full bg-black/70 px-3 py-1.5 text-[11px] uppercase tracking-[0.24em] font-semibold">{s.tag}</div>
                    
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
@@ -267,11 +263,13 @@ export function WhereItGoes() {
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             data-testid="location-modal"
-            role="dialog"
-            aria-modal="true"
           >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-xl" onClick={() => setModalItem(null)}/>
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-xl" onClick={closeModal}/>
             <motion.div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
               initial={{ opacity: 0, y: 40, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -279,20 +277,22 @@ export function WhereItGoes() {
               className="relative w-full max-w-[880px] bg-[#FFFBF7] rounded-[32px] overflow-hidden shadow-hero border border-[#FFC5DE]/40 grid md:grid-cols-2 max-h-[92vh]"
             >
               <button
+                type="button"
+                data-dialog-initial-focus
                 data-testid="location-modal-close"
-                onClick={() => setModalItem(null)}
-                className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/95 hover:bg-white flex items-center justify-center text-black/70 shadow-soft transition-all"
+                onClick={closeModal}
+                className="absolute top-5 right-5 z-10 min-w-11 min-h-11 rounded-full bg-white/95 hover:bg-white flex items-center justify-center text-black/70 shadow-soft transition-all"
                 aria-label="Close"
               >×</button>
               <div className="relative aspect-[4/5] md:aspect-auto min-h-[300px]">
                 <img src={modalItem.img} alt={modalItem.location} className="absolute inset-0 w-full h-full object-cover"/>
-                <div className="absolute top-5 left-5 rounded-full bg-white/95 px-3 py-1 text-[11px] uppercase tracking-widest text-[#EC5A99] font-bold">
+                <div className="absolute top-5 left-5 rounded-full bg-white/95 px-3 py-1 text-[11px] uppercase tracking-widest text-titli-action font-bold">
                   {modalItem.tag}
                 </div>
               </div>
               <div className="p-8 md:p-10 overflow-y-auto">
-                <div className="text-[11px] uppercase tracking-[0.28em] text-[#EC5A99] font-bold mb-3">Field Report · Verified</div>
-                <h3 className="font-sans font-extrabold text-[28px] md:text-[36px] leading-[1.05] tracking-tight text-[#111]">
+                <div className="text-[11px] uppercase tracking-[0.28em] text-titli-action font-bold mb-3">Field Report · Verified</div>
+                <h3 id={titleId} className="font-sans font-extrabold text-[28px] md:text-[36px] leading-[1.05] tracking-tight text-[#111]">
                   {modalItem.location}
                 </h3>
                 <p className="mt-4 text-[15px] text-[#4A4A4A] leading-[1.65] font-body">

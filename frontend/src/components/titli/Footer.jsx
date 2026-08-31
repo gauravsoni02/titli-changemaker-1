@@ -50,9 +50,9 @@ export function Footer() {
         <div className="titli-container">
           <div className="grid grid-cols-12 gap-8 md:gap-16 items-center">
             <div className="col-span-12 md:col-span-6">
-              <div className="text-[11px] uppercase tracking-[0.28em] text-[#EC5A99] font-bold mb-4">Stay in the circle</div>
+              <div className="text-[11px] uppercase tracking-[0.28em] text-titli-action font-bold mb-4">Stay in the circle</div>
               <h3 className="font-sans font-extrabold text-[34px] md:text-[52px] leading-[1] tracking-tight balance">
-                A quiet letter. Once a month. <span className="text-[#EC5A99]">Never sold.</span>
+                A quiet letter. Once a month. <span className="text-titli-action">Never sold.</span>
               </h3>
             </div>
             <div className="col-span-12 md:col-span-6">
@@ -105,8 +105,8 @@ export function Footer() {
                 </AnimatePresence>
               </form>
               <div className="min-h-[24px] mt-3 text-[13px]">
-                {state === "success" && <span className="text-[#EC5A99] font-semibold">Welcome. A hello is on its way.</span>}
-                {state === "error" && <span className="text-[#4A4A4A]">{err}</span>}
+                {state === "success" && <span role="status" aria-live="polite" className="text-titli-action font-semibold">Welcome. A hello is on its way.</span>}
+                {state === "error" && <span role="alert" className="text-[#4A4A4A]">{err}</span>}
               </div>
             </div>
           </div>
@@ -130,14 +130,14 @@ export function Footer() {
                   draggable={false}
                 />
               </div>
-              <p className="text-white/85 text-[15px] leading-[1.7] max-w-[320px] font-body">
+              <p className="text-white text-[15px] leading-[1.7] max-w-[320px] font-body">
                 We stand against period poverty across India — with compassion,
                 dignity, and #BreakTheTaboo.
               </p>
-              <div className="mt-6 space-y-2 text-[13px] text-white/85">
+              <div className="mt-6 space-y-2 text-[13px] text-white">
                 <div>contact@titlifoundation.in</div>
                 <div>+91 86049 42501</div>
-                <div className="text-white/70 leading-[1.6] max-w-[280px] mt-2">
+                <div className="text-white leading-[1.6] max-w-[280px] mt-2">
                   Pandey Krishi Kendra, Nirala Nagar, Khojanpur,
                   <br/>Faizabad, Uttar Pradesh — 224001
                 </div>
@@ -146,11 +146,11 @@ export function Footer() {
 
             {COLS.map((col) => (
               <div key={col.title} className="col-span-6 md:col-span-2">
-                <div className="text-[11px] uppercase tracking-[0.24em] text-white/70 font-bold mb-5">{col.title}</div>
+                <div className="text-[11px] uppercase tracking-[0.24em] text-white font-bold mb-5">{col.title}</div>
                 <ul className="space-y-3">
                   {col.links.map((l) => (
                     <li key={l}>
-                      <a href="#" className="text-[14px] text-white/95 hover:text-white transition-colors relative inline-block group">
+                      <a href="#" className="text-[14px] text-white hover:text-white transition-colors relative inline-block group focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white focus-visible:ring-offset-3 focus-visible:ring-offset-titli-action">
                         {l}
                         <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-white group-hover:w-full transition-all duration-500"/>
                       </a>
@@ -161,11 +161,11 @@ export function Footer() {
             ))}
 
             <div className="col-span-12 md:col-span-2">
-              <div className="text-[11px] uppercase tracking-[0.24em] text-white/70 font-bold mb-5">Social</div>
+              <div className="text-[11px] uppercase tracking-[0.24em] text-white font-bold mb-5">Social</div>
               <ul className="space-y-3">
                 {SOCIALS.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noreferrer noopener" className="text-[14px] text-white/95 hover:text-white transition-colors">
+                    <a href={s.href} target="_blank" rel="noreferrer noopener" className="text-[14px] text-white hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white focus-visible:ring-offset-3 focus-visible:ring-offset-titli-action">
                       {s.label} ↗
                     </a>
                   </li>
@@ -175,10 +175,10 @@ export function Footer() {
           </div>
 
           <div className="pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="text-[12px] tracking-wider text-white/80">
+            <div className="text-[12px] tracking-wider text-white">
               © {new Date().getFullYear()} Titli Foundation. All Rights Reserved. · Registered 80G · 12A
             </div>
-            <div className="text-[12px] tracking-wider text-white/80">
+            <div className="text-[12px] tracking-wider text-white">
               Built with care · #BreakTheTaboo
             </div>
           </div>

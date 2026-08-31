@@ -20,13 +20,13 @@ export function FinalCTA({ onRegisterSchool, onStartFundraiser }) {
           {/* LEFT — Schools */}
           <div className="relative bg-[#EC5A99] text-white p-10 md:p-16 flex flex-col justify-between min-h-[520px]">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.28em] font-bold text-white/80 mb-6">
+              <div className="text-[11px] uppercase tracking-[0.28em] font-bold text-white mb-6">
                 For School coordinators
               </div>
               <h3 className="font-sans font-extrabold text-[36px] md:text-[52px] leading-[1] tracking-tight balance">
                 Register your school. Now.
               </h3>
-              <p className="mt-5 text-white/85 text-[15px] md:text-[16px] leading-[1.6] max-w-[380px] font-body">
+              <p className="mt-5 text-white text-[15px] md:text-[16px] leading-[1.6] max-w-[380px] font-body">
                 Five-minute form. Named coordinator. Live dashboard by tomorrow morning.
               </p>
             </div>
@@ -50,16 +50,16 @@ export function FinalCTA({ onRegisterSchool, onStartFundraiser }) {
           <div className="relative min-h-[520px] flex flex-col justify-between p-10 md:p-16 text-white overflow-hidden">
             <img src={BG} alt="" className="absolute inset-0 w-full h-full object-cover"/>
             <div className="absolute inset-0" style={{
-              background: "linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(236,90,153,0.55) 100%)"
+              background: "linear-gradient(135deg, rgba(17,17,17,0.84) 0%, rgba(88,17,52,0.78) 100%)"
             }}/>
             <div className="relative">
-              <div className="text-[11px] uppercase tracking-[0.28em] font-bold text-white/80 mb-6">
+              <div className="text-[11px] uppercase tracking-[0.28em] font-bold text-white mb-6">
                 For Students
               </div>
               <h3 className="font-sans font-extrabold text-[36px] md:text-[52px] leading-[1] tracking-tight balance">
                 Start your fundraiser today.
               </h3>
-              <p className="mt-5 text-white/90 text-[15px] md:text-[16px] leading-[1.6] max-w-[380px] font-body">
+              <p className="mt-5 text-white text-[15px] md:text-[16px] leading-[1.6] max-w-[380px] font-body">
                 No school code needed to explore. Launch in 60 seconds and start sharing.
               </p>
             </div>

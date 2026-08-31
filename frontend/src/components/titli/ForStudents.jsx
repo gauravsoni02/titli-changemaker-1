@@ -38,13 +38,13 @@ export function ForStudents({ onStart }) {
           </div>
 
           <div className="col-span-12 lg:col-span-6 order-1 lg:order-2">
-            <EyebrowLabel>For Students</EyebrowLabel>
+            <EyebrowLabel>FOR STUDENTS</EyebrowLabel>
             <h2 className="mt-6 font-sans font-extrabold text-[42px] md:text-[60px] leading-[1.02] tracking-tight balance text-[#111]">
               Your fundraiser is<br/>
               <ScribbleWord rotate={-3}>your voice</ScribbleWord>.
             </h2>
             <p className="mt-6 text-[16px] md:text-[18px] text-[#4A4A4A] leading-[1.65] max-w-[520px] font-body">
-              We built this for students, not for competition. Every campaign
+              We built this FOR STUDENTS, not for competition. Every campaign
               matters. Every rupee lands. Raise ten or ten thousand — a girl
               somewhere in India gets to sit through class without shame.
             </p>

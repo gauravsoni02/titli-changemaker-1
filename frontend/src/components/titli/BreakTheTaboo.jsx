@@ -50,7 +50,7 @@ export function BreakTheTaboo() {
         >
           It shouldn&apos;t be whispered. It shouldn&apos;t be a source of
           shame. Join us in our efforts to{" "}
-          <span className="font-bold text-[#EC5A99]">#BreakTheTaboo</span>{" "}
+          <span className="font-bold text-titli-action">#BreakTheTaboo</span>{" "}
           and positively impact lives everywhere.
         </motion.p>
 
