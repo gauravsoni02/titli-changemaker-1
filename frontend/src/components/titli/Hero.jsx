@@ -64,7 +64,7 @@ export function Hero({ onRegisterSchool, onStartFundraiser }) {
             className="absolute -top-2 lg:top-auto lg:-bottom-4 right-2 lg:-right-6 max-w-[240px] rounded-[20px] p-4 bg-white shadow-lift border border-[#FFC5DE]"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#EC5A99] flex items-center justify-center text-white font-extrabold">42</div>
+             <div className="w-10 h-10 rounded-full bg-[#C63F78] flex items-center justify-center text-white font-extrabold">42</div>
               <div>
                 <div className="text-[13px] font-semibold text-[#111]">schools raising</div>
                 <div className="text-[11px] text-black/50">right now, live</div>

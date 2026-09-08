@@ -50,7 +50,9 @@ export function Footer() {
         <div className="titli-container">
           <div className="grid grid-cols-12 gap-8 md:gap-16 items-center">
             <div className="col-span-12 md:col-span-6">
-              <div className="text-[11px] uppercase tracking-[0.28em] text-[#EC5A99] font-bold mb-4">Stay in the circle</div>
+              <div className="text-[11px] uppercase tracking-[0.28em] text-[#C63F78] font-bold mb-4">
+  Stay in the circle
+</div>
               <h3 className="font-sans font-extrabold text-[34px] md:text-[52px] leading-[1] tracking-tight balance">
                 A quiet letter. Once a month. <span className="text-[#EC5A99]">Never sold.</span>
               </h3>
@@ -87,7 +89,7 @@ export function Footer() {
                       exit={{ scale: 0, opacity: 0 }}
                       data-testid={FOOTER.newsletterSubmit}
                       disabled={state === "loading"}
-                      className="absolute right-2 w-11 h-11 rounded-full bg-[#EC5A99] hover:bg-[#D84C8A] flex items-center justify-center text-white shadow-pill transition-all disabled:opacity-80"
+                      className="absolute right-2 w-11 h-11 rounded-full bg-[#EC5A99] hover:bg-[#EC5A99] flex items-center justify-center text-white shadow-pill transition-all disabled:opacity-80"
                       type="submit"
                       aria-label="Subscribe"
                     >

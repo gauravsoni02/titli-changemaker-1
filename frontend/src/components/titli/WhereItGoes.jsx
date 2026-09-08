@@ -150,7 +150,7 @@ export function WhereItGoes() {
   };
 
   return (
-    <section id="where" ref={sectionRef} data-testid={STORIES.section} className="relative py-32 md:py-40 bg-[#FEF1F8] overflow-hidden">
+    <section id="where" ref={sectionRef} data-testid={STORIES.section} className="relative py-32 md:py-40 bg-[#FFFFFF] overflow-hidden">
       <div className="titli-container">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14">
           <div>
@@ -215,7 +215,7 @@ export function WhereItGoes() {
                     <div className="text-[11px] uppercase tracking-[0.24em] font-semibold opacity-90">{s.tag}</div>
                    
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
+                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-[#FFFFFF]">
                     <h3 className="font-sans font-extrabold text-[26px] md:text-[32px] leading-[1.05] tracking-tight balance">
                       {s.location}
                     </h3>
