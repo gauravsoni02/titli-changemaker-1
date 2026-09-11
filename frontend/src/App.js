@@ -14,13 +14,13 @@ import { Partners } from "@/components/titli/Partners";
 import { BreakTheTaboo } from "@/components/titli/BreakTheTaboo";
 import { FinalCTA } from "@/components/titli/FinalCTA";
 import { Footer } from "@/components/titli/Footer";
-import { StudentCampaignModal } from "@/components/titli/StudentCampaignModal";
 
 import { AuthProvider, useAuth } from "@/auth/AuthContext";
 
 import LoginPage from "@/pages/LoginPage";
 import DashboardPage from "@/pages/DashboardPage";
 import SchoolRegisterPage from "@/pages/SchoolRegisterPage";
+import StudentFundraiserPage from "@/pages/StudentFundraiserPage";
 
 function useLenis() {
   useEffect(() => {
@@ -49,8 +49,6 @@ function useLenis() {
 }
 
 function Landing() {
-  const [studentOpen, setStudentOpen] = useState(false);
-
   const { coordinator } = useAuth();
   const navigate = useNavigate();
 
@@ -76,7 +74,7 @@ function Landing() {
 
       <Hero
         onRegisterSchool={handleRegisterSchool}
-        onStartFundraiser={() => setStudentOpen(true)}
+        onStartFundraiser={() => navigate("/student")}
       />
 
       <HowItWorks />
@@ -84,7 +82,7 @@ function Landing() {
       <ForSchools onRegister={handleRegisterSchool} />
 
       <ForStudents
-        onStart={() => setStudentOpen(true)}
+        onStart={() => navigate("/student")}
       />
 
       <Impact />
@@ -97,15 +95,10 @@ function Landing() {
 
       <FinalCTA
         onRegisterSchool={handleRegisterSchool}
-        onStartFundraiser={() => setStudentOpen(true)}
+        onStartFundraiser={() => navigate("/student")}
       />
 
       <Footer />
-
-      <StudentCampaignModal
-        open={studentOpen}
-        onClose={() => setStudentOpen(false)}
-      />
     </div>
   );
 }
@@ -133,6 +126,12 @@ function App() {
             path="/register"
             element={<SchoolRegisterPage />}
           />
+          
+          {/* Student fundraiser */}
+<Route
+  path="/student"
+  element={<StudentFundraiserPage />}
+/>
 
           {/* Dashboard */}
           <Route
@@ -147,3 +146,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
