@@ -85,13 +85,13 @@ export function Nav({ onRegisterSchool }) {
           Sign in
         </a>
         <button
-          onClick={onRegisterSchool}
-          data-testid={NAV.donate}
-          className="ml-2 lg:ml-3 px-5 lg:px-6 py-2.5 text-[14px] font-semibold text-white bg-[#EC5A99] rounded-[12px] shadow-sm hover:bg-[#D84C8A] active:opacity-80 transition-all duration-200 whitespace-nowrap"
-          style={{ WebkitTapHighlightColor: "transparent" }}
-        >
-          Register School
-        </button>
+  onClick={onRegisterSchool}
+  data-testid={NAV.donate}
+  className="ml-2 lg:ml-3 px-5 lg:px-6 py-2.5 text-[14px] font-semibold text-white bg-[#C63F78] rounded-[12px] shadow-sm hover:bg-[#A93265] active:opacity-80 transition-all duration-200 whitespace-nowrap"
+  style={{ WebkitTapHighlightColor: "transparent" }}
+>
+  Register School
+</button>
       </div>
 
       {/* Mobile Actions: Register CTA + 3-Dot Menu Button */}
