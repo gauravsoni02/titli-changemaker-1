@@ -86,3 +86,6 @@ android-sdk/
 credentials.json
 *.key
 .credentials
+
+# Keep example templates visible; never commit the actual local env file.
+!backend-nestjs/.env.example
