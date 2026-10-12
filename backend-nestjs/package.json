@@ -1,0 +1,42 @@
+{
+  "name": "titli-nestjs-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NestJS and TypeScript API scaffold for Titli Foundation",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.22.3",
+    "npm": ">=10.9.0"
+  },
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"*.json\"",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main.js",
+    "lint": "prettier --check \"src/**/*.ts\" \"*.json\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.0.1",
+    "@nestjs/platform-express": "^12.0.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "helmet": "^8.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^12.0.1",
+    "@types/node": "^24.5.2",
+    "prettier": "^3.6.2",
+    "typescript": "^6.0.0",
+    "vitest": "^4.0.0"
+  }
+}
